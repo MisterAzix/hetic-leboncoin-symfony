@@ -13,14 +13,14 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[ORM\Column(length: 40)]
+    private ?string $firstname = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $first_name = null;
+    #[ORM\Column(length: 40)]
+    private ?string $lastname = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $mail = null;
+    #[ORM\Column(length: 100)]
+    private ?string $email = null;
 
     #[ORM\Column(length: 255)]
     private ?string $password = null;
