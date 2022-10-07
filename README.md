@@ -2,7 +2,7 @@
 
 ## Setup
 ```bash
-git clone [https://github.com/MisterAzix/hetic-leboncoin-symfony](https://github.com/MisterAzix/hetic-leboncoin-symfony)
+git clone https://github.com/MisterAzix/hetic-leboncoin-symfony
 ```
 
 ```bash
