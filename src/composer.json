@@ -22,7 +22,8 @@
         "symfony/twig-bundle": "6.1.*",
         "symfony/yaml": "6.1.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "zenstruck/foundry": "^1.22"
     },
     "config": {
         "allow-plugins": {
