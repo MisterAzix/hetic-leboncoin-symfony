@@ -1,25 +1,30 @@
-# Php-fpm-alpine x Nginx
-### Symfony | Docker
+# HETIC Leboncoin Symfony
 
-Avec MariaDB & MailDev
+## Setup
+```bash
+git clone [https://github.com/MisterAzix/hetic-leboncoin-symfony](https://github.com/MisterAzix/hetic-leboncoin-symfony)
+```
 
-Pour lancer le projet :
-````shell
+```bash
 docker-compose up -d
-docker exec symfony_docker composer create-project symfony/skeleton html
-sudo chown -R $USER ./
-````
+```
 
-Pensez ensuite à aller exécuter toutes vos commandes depuis l'intérieur du container.
+```bash
+docker ps
+```
 
-Par exemple :
-````shell
-cd symfony_project
-composer require orm
-````
-(Demandez à Composer de NE PAS créer une config Docker pour la database)
+→ Récupérer l’ID du conteneur docker
 
-Enfin, modifiez la config DB dans le fichier .env de Symfony :
-````shell
-DATABASE_URL=mysql://root:ChangeMeLater@db:3306/symfony_db?serverVersion=mariadb-10.7.1
-````
+```bash
+docker exec -ti [container_id] bash
+```
+
+```bash
+cd html
+```
+
+```bash
+composer i
+```
+
+→ Go to [localhost:5555](http://localhost:5555) it is running!
