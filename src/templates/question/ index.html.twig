@@ -1,0 +1,32 @@
+{# Héritage, mon template extends base.html.twig, il va
+aussi falloir que je précise à quel endroit je
+veux inclure mon template. #}
+{% extends 'base.html.twig' %}
+
+{# J'utilise le block title du parent #}
+{#
+ {% block title %}
+    {{ parent() }}
+    question
+  {% endblock %}
+#}
+
+{# block que je remplace #}
+{% block title %}
+    Je suis un titre
+{% endblock %}
+
+{# block je remplace #}
+{% block body %}
+    <div>
+        {# filtres twig pipe, si il y'a des questions alors afficher le nombre #}
+        <h1>Nombre de questions : {{ questions|length }}</h1>
+        <ul>
+            {# Parser un array avec twig #}
+            {% for question in questions %}
+                <li>{{ question.name }} - par {{ question.askedBy.firstName }} - avec {{ question.answers|length }}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+{% endblock %}
