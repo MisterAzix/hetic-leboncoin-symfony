@@ -1,3 +1,8 @@
 controllers:
     resource: ../src/Controller/
     type: attribute
+
+#Méthode classique pour associer une méthode d'un controller à une route
+#index:
+#    path: /
+#    controller: App\Controller\QustionController::index
