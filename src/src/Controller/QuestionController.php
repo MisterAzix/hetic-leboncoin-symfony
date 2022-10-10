@@ -29,7 +29,7 @@ class QuestionController extends AbstractController
 
     #Les wildcards dans les routes, permet de passer de param à nos routes
     #[Route('/question/{id}', name: "app_question_by_id")]
-    public function getQuestionById($id):Response
+    public function getQuestionById($id): Response
     {
         dd($id);
     }
@@ -38,16 +38,14 @@ class QuestionController extends AbstractController
     #[Route('/questions/{ma_wildcard}', name: "app_questions")]
     public function show($ma_wildcard): Response
     {
-        #Prend deux params, Le chemin/le nom du template et Un array avec toutes les variables que l’on veut passer au template
+        #Prend deux params, Le chemin.le nom du template et Un array avec toutes les variables que l’on veut passer au template
         #On nomme le template comme la méthode du controller et on le range dans un dossier avec un nom explicite
         #Render va ultimement renvoyer un objet de la classe Response… mais avec notre template
-        return $this->render('question/index.html.twig',
+        return $this->render(
+            '/question/index.html.twig',
             [
                 "questions" => sprintf('La question posée est : %s', $ma_wildcard)
-            ]);
+            ]
+        );
     }
-
-
-
-
 }
