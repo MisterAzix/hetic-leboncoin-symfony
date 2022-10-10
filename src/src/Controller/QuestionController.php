@@ -13,7 +13,7 @@ class QuestionController extends AbstractController
     #Symfony va lire les routes du début du fichier vers le bas du fichier et matcher dès la première correspondance venue.
     #mettre les routes de la plus spécifique vers la moins spécifique
     #Les annotations se mettent dans un commentaire PHPDoc
-    #[Route('/', name: "app_index")]
+    #[Route('/', name: "app_question_index")]
     public function index(): Response
     {
         return new Response('Hello word');

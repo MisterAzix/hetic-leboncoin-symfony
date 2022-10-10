@@ -13,6 +13,10 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
+        {# importer un script sur toutes mes pages #}
+{#        {% block javascripts %}#}
+{#          <script src="{{ asset('js/question_show.js') }}"></script>#}
+{#        {% endblock %}#}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}

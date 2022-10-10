@@ -12,21 +12,38 @@ veux inclure mon template. #}
 #}
 
 {# block que je remplace #}
-{% block title %}
-    Je suis un titre
+	{% block title %}
+Je suis un titre
 {% endblock %}
 
 {# block je remplace #}
-{% block body %}
-    <div>
-        {# filtres twig pipe, si il y'a des questions alors afficher le nombre #}
-        <h1>Nombre de questions : {{ questions|length }}</h1>
-        <ul>
-            {# Parser un array avec twig #}
-            {% for question in questions %}
-                <li>{{ question.name }} - par {{ question.askedBy.firstName }} - avec {{ question.answers|length }}</li>
-            {% endfor %}
-        </ul>
+	{% block body %}
+		<div>
+		{# filtres twig pipe, si il y'a des questions alors afficher le nombre #}
+            <h1>Nombre de questions :{{ questions|length }}</h1>
+			<ul>
+			{# Parser un array avec twig #}
+				{% for question in questions %}
+					<li>
+					{{ question.name }}
+					- par
+					{{ question.askedBy.firstName }}- avec
+				{{ question.answers|length }}
+			</li>
+		{% endfor %}
+		</ul>
+            {# naviguer entre les routes dans les templates  #}
+            <li><a href="{{path('app_question_by_id', {id: 'idTest'})}}"> Afficher une questio par son id</a></li>
+			{# naviguer entre les routes dans les templates en passant un argument #}
+			<li><a href="{{path('app_questions', {ma_wildcard: 'argIdtest'})}}"> Afficher toutes les question</a></li>
 
-    </div>
+		</div>
 {% endblock %}
+
+  {#importer un script uniquement sur cette template ou page#}
+	{% block javascripts %}
+		{# charger les script parent de toutes les pages #}
+		{{ parent() }}
+		{#mon unique script#}
+		<script src="{{ asset('js/question_show.js') }}"></script>
+	{% endblock %}

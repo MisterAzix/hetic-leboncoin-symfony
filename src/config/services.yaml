@@ -13,7 +13,8 @@ services:
         bind:
 #            bool $isDebug: '%kernel.debug%'
 #            string $googleKey: '%env(GOOGLE_KEY)%'
-             #$projectDir: '%kernel.project_dir%/templates'
+             $projectDir: '%kernel.project_dir%/templates'
+             $userId: "1654aztest"
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
