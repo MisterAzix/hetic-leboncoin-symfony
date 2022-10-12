@@ -1,0 +1,5 @@
+{
+    "require": {
+        "knplabs/knp-markdown-bundle": "^1.10"
+    }
+}
