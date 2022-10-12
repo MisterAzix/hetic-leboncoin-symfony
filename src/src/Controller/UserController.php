@@ -10,14 +10,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use DateTimeInterface;
+
 
 class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user_index')]
     public function index(UserRepository $repository): Response
     {
-
         $users = $repository->findAll();
         return $this->render('user/index.html.twig', [
             'users' => $users,
@@ -68,8 +67,7 @@ class UserController extends AbstractController
         $user->setFirstName($request->request->get('firstName'))
             ->setName($request->request->get('name'))
             ->setEmail($request->request->get('email'))
-            ->setPassword($request->request->get('password'))
-            ->setCreateDate(DateTime::createFromFormat('d F Y'));
+            ->setPassword($request->request->get('password'));
 
         $entityManager->flush();
 

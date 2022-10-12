@@ -4,6 +4,8 @@ namespace App\Factory;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\AsciiStringType;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
@@ -40,19 +42,20 @@ final class UserFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'name' => self::faker()->realText(40),
-            'first_name' => self::faker()->realText(40),
-            'email' => self::faker()->email(),
+            'name' => self::faker()->lastName(40),
+            'first_name' => self::faker()->firstName(40),
             'password' => self::faker()->password(),
-            'createDate' => self::faker()->dateTime('d F Y') // TODO add DATETIME ORM type manually
+            'createDate' => self::faker()->dateTime('now') // TODO add DATETIME ORM type manually
         ];
     }
 
     protected function initialize(): self
     {
         // see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
-        return $this
-            // ->afterInstantiate(function(User $user): void {})
+        return $this->afterInstantiate(function(User $user) {
+            $email = strtolower($user->getFirstName()) . '.' . strtolower($user->getName()) . "@gmail.com";
+            $user->setEmail($email);
+        })
         ;
     }
 
