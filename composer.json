@@ -1,5 +1,8 @@
 {
     "require": {
         "knplabs/knp-markdown-bundle": "^1.10"
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4"
     }
 }

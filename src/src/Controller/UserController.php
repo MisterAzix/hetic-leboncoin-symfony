@@ -6,13 +6,11 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use ContainerWy4cZx2\EntityManager_9a5be93;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use function MongoDB\Driver\Monitoring\removeSubscriber;
+use DateTimeInterface;
 
 class UserController extends AbstractController
 {
@@ -47,7 +45,8 @@ class UserController extends AbstractController
         $user->setName($request->request->get('name'))
             ->setFirstName($request->request->get('firstName'))
             ->setEmail($request->request->get('email'))
-            ->setPassword($request->request->get('password'));
+            ->setPassword($request->request->get('password'))
+            ->setCreateDate(DateTime::createFromFormat('d F Y'));
 
         $entityManager->persist($user);
         $entityManager->flush();
@@ -68,7 +67,9 @@ class UserController extends AbstractController
     {
         $user->setFirstName($request->request->get('firstName'))
             ->setName($request->request->get('name'))
-            ->setEmail($request->request->get('email'));
+            ->setEmail($request->request->get('email'))
+            ->setPassword($request->request->get('password'))
+            ->setCreateDate(DateTime::createFromFormat('d F Y'));
 
         $entityManager->flush();
 
