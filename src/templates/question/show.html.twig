@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Question à afficher
+{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Ma question : {{ question.question }}</h1>
+        <h1>{% for answer in answers %}
+                {{ answer }}
+            {% endfor %}</h1>
+        {# Afficher les dates#}
+        <h1>Date : {{ question.askedAt|date('Y-m-d H:i:s')}} </h1>
+        {# Utiliser le bundle knp-time-bundle pour des dates personnalisées #}
+        <h1>Date : {{ question.askedAt|ago}} </h1>
+        <li><a href="{{path('app_questions_new', {idQuestion: question.id})}}"> Afficher la question</a></li>
+    </div>
+{% endblock %}

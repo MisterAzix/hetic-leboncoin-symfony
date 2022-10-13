@@ -6,8 +6,11 @@
 
 {% block body %}
     <div>
-
         <h1>Mes annonces {{ annonces | annonces}}</h1>
+        {# naviguer vers /annonce/{id} #}
+        <li><a href="{{path('app_annonce_index', {id: 'argIdtest'})}}">Détail annonce</a></li>
+        {# naviguer vers /annonce/form #}
+        <li><a href="{{path('app_annonce_form', {id: 'argIdtest'})}}">Créer  une annonce</a></li>
 
     </div>
 {% endblock %}

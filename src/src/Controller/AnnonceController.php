@@ -22,7 +22,7 @@ class AnnonceController extends AbstractController
     }
 
     //conditionner l'affichage de cette route en vérifiant si l'utilisateur est conencté
-    #[Route('/annonce/form', name: "app_annonce_index")]
+    #[Route('/annonce/form', name: "app_annonce_form")]
     public function getAnnonceForm($userId): Response
     {
         $user = "User connecté :".$userId;
@@ -48,3 +48,4 @@ class AnnonceController extends AbstractController
         );
     }
 }
+
