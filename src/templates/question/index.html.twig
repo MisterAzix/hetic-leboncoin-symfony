@@ -12,59 +12,66 @@ veux inclure mon template. #}
 #}
 
 {# block que je remplace #}
-{% block title %}
+	{% block title %}
 Je suis un titre
 {% endblock %}
 
 {# block je remplace #}
 	{% block body %}
-		{# formulaire de recherche #}
-		<div>
-			<h1>Search action : </h1>
-			<form class="" action="{{ path('app_search-question') }}">
-				{#	app.request.query.get : fonction de Twig qui me permet de récupérer les aramètres en URL et de les échapper (pour ne pas risquer de faille XSS)	#}
-				<input type="search" class="" placeholder="Search" name="seach" aria-label="Search" value="{{ app.request.query.get('search')| default('') }}">
-			</form>
-		</div>
-		{# formulaire de vote #}
-		<div>
-			<h1>Vote : </h1>
-			<form class="" action="{{path('app_question_vote', {slug: question.slug}) method="post"}}">
-				<button class="" name="vote" value="up">vote up</button>
-				<button class="" name="vote" value="down">vote down</button>
-				<span class="">{{ question.votesString}}</span>
-			</form>
-		</div>
-		<div>
+	{# formulaire de recherche #}
+		<div><h1>
+		Search action :
+		</h1>
+			<form
+			class="" action="{{ path('app_search-question') }}"> {#	app.request.query.get : fonction de Twig qui me permet de récupérer les aramètres en URL et de les échapper (pour ne pas risquer de faille XSS)	#}
+			<input type="search" class="" placeholder="Search" name="seach" aria-label="Search" value="{{ app.request.query.get('search')| default('') }}">
+		</form>
+	</div>
+	{# formulaire de vote #}
+	<div>
+		<h1>Vote :
+		</h1>
+		<form class="" action="{{path('app_question_vote', {slug: question.slug}) method=" post"}}">
+			<button class="" name="vote" value="up">vote up</button>
+			<button class="" name="vote" value="down">vote down</button>
+			<span class="">{{ question.votesString}}</span>
+		</form>
+	</div>
+	<div>
 		{# filtres twig pipe, si il y'a des questions alors afficher le nombre #}
-            <h1>Nombre de questions :{{ questions|length }}</h1>
-			<ul>
+		<h1>Nombre de questions :{{ questions|length }}</h1>
+		<ul>
 			{# Parser un array avec twig #}
-				{% for question in questions %}
-					<li>
+			{% for question in questions %}
+				<li>
 					{{ question.name }}
-					- par
-{#					{{ question.askedBy.firstName }}- avec#}
-{#				{{ question.answers|length }}#}
-			</li>
-		{% endfor %}
+				{#					{{ question.askedBy.firstName }}- avec#}
+					{#				{{ question.answers|length }}#}
+				</li>
+			{% endfor %}
 
 		</ul>
-            {# naviguer entre les routes dans les templates  #}
-            <li><a href="{{path('app_question_by_id', {id: 'idTest'})}}"> Afficher une questio par son id</a></li>
-			{# naviguer entre les routes dans les templates en passant un argument #}
-			<li><a href="{{path('app_questions', {slug: 'argIdtest'})}}"> Afficher toutes les question</a></li>
+		{# naviguer entre les routes dans les templates  #}
+		<li>
+			<a href="{{path('app_question_by_id', {id: 'idTest'})}}">
+				Afficher une questio par son id</a>
+		</li>
+		{# naviguer entre les routes dans les templates en passant un argument #}
+		<li>
+			<a href="{{path('app_questions', {slug: 'argIdtest'})}}">
+				Afficher toutes les question</a>
+		</li>
 
-		</div>
-		{#	Afficher le markdown dans le template twig	#}
-{#		<p>{{ question_text|markdown }}</p>#}
+	</div>
+	{#	Afficher le markdown dans le template twig	#}
+	{#		<p>{{ question_text|markdown }}</p>#}
 
 {% endblock %}
 
-  {#importer un script uniquement sur cette template ou page#}
-	{% block javascripts %}
-		{# charger les script parent de toutes les pages #}
-		{{ parent() }}
-		{#mon unique script#}
-		<script src="{{ asset('js/question_show.js') }}"></script>
-	{% endblock %}
+{#importer un script uniquement sur cette template ou page#}
+{% block javascripts %}
+	{# charger les script parent de toutes les pages #}
+	{{ parent() }}
+	{#mon unique script#}
+	<script src="{{ asset('js/question_show.js') }}"></script>
+{% endblock %}

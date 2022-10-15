@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	La réponse
+{% endblock %}
+
+{% block body %}
+	<div>
+		<div>Réponses</div>
+		<ul>
+			{% for answer in answers %}
+				<li>
+					{{ answer.content }}
+					<h1>Vote :
+					</h1>
+					<div class="js-vote">
+						<button class="js-vote-up" name="vote" data-direction="up" data-id="{{ answer.id }}">vote up</button>
+						<button class="js-vote-down" name="vote" data-direction="down" data-id="{{ answer.id }}">vote down</button>
+						<span class="js-vote-total">{{ answer.votes }}</span>
+					</div>
+				</li>
+			{% endfor %}
+
+		</ul>
+
+	</div>
+{% endblock %}
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('countVote') }}
+{% endblock %}

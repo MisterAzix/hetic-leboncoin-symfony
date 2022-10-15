@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\AnswerRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -39,7 +40,9 @@ class Question
     #[ORM\Column(nullable: true)]
     private ?int $votes = 0;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class)]
+    /**@ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, fetch="EXTRA_LAZY")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
+     */
     private Collection $answers;
 
     #[ORM\ManyToOne(inversedBy: 'question')]
@@ -103,25 +106,28 @@ class Question
 
         return $this;
     }
-//    Rajouter une méthode à notre entité
-    public function getNameToUpperCase(): string {
+    //    Rajouter une méthode à notre entité
+    public function getNameToUpperCase(): string
+    {
         return strtoupper($this->name);
     }
-//     retourne la valeur du vote sous forme de string avec un
-//     « + » ou un « - » devant selon que le vote est positif ou
-//    négatif
-    public function getVotesString(): string {
+    //     retourne la valeur du vote sous forme de string avec un
+    //     « + » ou un « - » devant selon que le vote est positif ou
+    //    négatif
+    public function getVotesString(): string
+    {
         $prefix = $this->getVotes() >= 0 ? "+" : "-";
         return sprintf('%s %d', $prefix, abs($this->getVotes()));
-
     }
 
     //Rajoute deux méthodes de votes
-    public function upVote(): int {
+    public function upVote(): int
+    {
         return $this->votes++;
     }
 
-    public function upDown(): int {
+    public function upDown(): int
+    {
         return $this->votes--;
     }
 
@@ -180,5 +186,27 @@ class Question
         return $this;
     }
 
-}
+    // /** La méthode pour n’afficher que les réponses qui ont le status approved
+    //  * @return Collection<int, Answer>
+    //  */
+    // public function getApprovedAnswers(): Collection
+    // {
+    //     //filtrer une collection avant que la query ne soit faite en DB
+    //     $criteria = Criteria::create()->andWhere(Criteria::expr()->eq('status', Answer::APPROVED));
 
+    //     return $this->answer->matching($criteria);
+    //     //Le filtre de collection
+    //     // return $this->answers->filter(function (Answer $answer) {
+    //     //     return $answer->isApproved(); //Condition bool 
+    //     // });
+    // }
+
+    /** Renvoie une collection des réponses qui ont le status approved
+     * @return Collection
+     */
+    public function getApprovedAnswers(): Collection
+    {
+
+        return $this->answers->matching(AnswerRepository::createApprovedCriteria());
+    }
+}

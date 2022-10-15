@@ -1,1 +1,0 @@
-console.log("Mon fichier est bien chargé")

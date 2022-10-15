@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Answer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -38,29 +39,52 @@ class AnswerRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    /** La méthode pour n’afficher que les réponses qui ont le status approved
+     * @return Criteria
+     */
+    public static function createApprovedCriteria(): Criteria
+    {
+        //filtrer une collection avant que la query ne soit faite en DB
+        return Criteria::create()->andWhere(Criteria::expr()->eq('status', Answer::APPROVED));
+    }
 
-//    /**
-//     * @return Answer[] Returns an array of Answer objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    // Réutiliser notre critère fraichement crée dans un queryBuilder
+    /**
+     * @return Answer[] Returns an array of Answer objects
+     */
+    public function findAllApproved(int $max = 10): array
+    {
+        return $this->createQueryBuilder('answer')
+            ->andWhere('answer.status = :status')
+            ->setParameter('status', Answer::APPROVED)
+            ->setMaxResults($max)
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Answer
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+
+    //    /**
+    //     * @return Answer[] Returns an array of Answer objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('a')
+    //            ->andWhere('a.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('a.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Answer
+    //    {
+    //        return $this->createQueryBuilder('a')
+    //            ->andWhere('a.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

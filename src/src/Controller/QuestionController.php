@@ -77,6 +77,7 @@ class QuestionController extends AbstractController
         //Trier de la date la plus récente à la plus vieille
         $getAllSortQuestion = $repository->findBy([], ['askedAt' => 'DESC']);
 //      dump($getAllQuestion);
+        //dd($getAllQuestion);
 
         //Faire une 404 quand on recoit un résultat null
         if(!$getQuestion) {
