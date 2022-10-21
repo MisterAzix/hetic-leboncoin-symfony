@@ -49,9 +49,13 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'question')]
+    private Collection $tag;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
+        $this->tag = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -208,5 +212,32 @@ class Question
     {
 
         return $this->answers->matching(AnswerRepository::createApprovedCriteria());
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTag(): Collection
+    {
+        return $this->tag;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tag->contains($tag)) {
+            $this->tag->add($tag);
+            $tag->addQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeYe(Tag $tag): self
+    {
+        if ($this->tag->removeElement($tag)) {
+            $tag->removeQuestion($this);
+        }
+
+        return $this;
     }
 }

@@ -22,6 +22,12 @@
 			{% endfor %}
 
 		</ul>
+		{#	Afficher les tags de la question#}
+		<div class="">
+			{% for tag in question.tag %}
+				<span> {{ tag.name }}</span>
+			{% endfor %}
+		</div>
 
 	</div>
 {% endblock %}

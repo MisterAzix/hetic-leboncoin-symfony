@@ -39,17 +39,17 @@ class QuestionRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @return array
-     */
-    public function findAllAskedOrderByNewest(): array
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.askedAt IS NOT NULL')
-            ->orderBy('q.askedAt', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
+//    /**
+//     * @return array
+//     */
+//    public function findAllAskedOrderByNewest(): array
+//    {
+//        return $this->createQueryBuilder('q')
+//            ->andWhere('q.askedAt IS NOT NULL')
+//            ->orderBy('q.askedAt', 'DESC')
+//            ->getQuery()
+//            ->getResult();
+//    }
 
     /**
      * @param $name
@@ -60,6 +60,22 @@ class QuestionRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('q')
             ->andWhere('q.name LIKE :val OR q.slug LIKE :val')
             ->setParameter('val', '%' . $name . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /** Jointure questions et tags et utilisateurs pour ManyToMany
+     * @return Array
+     */
+    public function findAllAskedOrderByNewest():Array
+    {
+        return $this->createQueryBuilder('q')
+            ->andWhere('q.askedAt IS NO NULL')
+            ->leftJoin('q.tag', 'tag')
+            ->addSelect('tag')
+            ->leftJoin('q.user', 'user')
+            ->addSelect('user')
+            ->orderBy('q.askedAt', 'DESC')
             ->getQuery()
             ->getResult();
     }

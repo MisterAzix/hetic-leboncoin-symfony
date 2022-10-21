@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Les réponse populaire
+{% endblock %}
+
+{% block body %}
+	{# search box #}
+	<form action="{{path('app_answers_popular')}}">
+		<input type="search" name="q" placehorder="Search" class="form-control" aria-label="search">
+	</form>
+	<div>
+		<div>Réponses populaire</div>
+		<ul>
+			{% for answer in answers %}{% endfor %}
+		</ul>
+	</div>
+	{# La pagination #}
+	{# <div>{{knp_pagination_render(answers)}}</div> #}
+{% endblock %}

@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Question;
 use App\Factory\AnswerFactory;
 use App\Factory\QuestionFactory;
+use App\Factory\TagFactory;
 use App\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -31,6 +32,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         UserFactory::createMany(10);
+        TagFactory::createMany(100);
         //Créer 10 questions, excuter symfony console doctrine:fixtures:load pour charger en db
         QuestionFactory::createMany(10);
         //Je passe les questions à une réponse

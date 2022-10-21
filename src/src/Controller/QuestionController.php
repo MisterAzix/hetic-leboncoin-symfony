@@ -3,6 +3,8 @@
 namespace App\Controller;
 #Les méthodes de controller doivent retourner un objet de la classe « \Symfony\Component\HttpFoundation\ Response() »
 use App\Entity\Question;
+use App\Factory\QuestionFactory;
+use App\Form\QuestionFormType;
 use App\Repository\QuestionRepository;
 use App\service\MarkdownHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +28,7 @@ class QuestionController extends AbstractController
         $questions = $repository->findAll();
         //Utiliser la query personnalisée
         $questionsSort = $repository->findAllAskedOrderByNewest();
-//        dd($questionsSort);
+        //        dd($questionsSort);
         return new Response('Hello word');
     }
 
@@ -36,6 +38,41 @@ class QuestionController extends AbstractController
         #debug died permet de debugger, donne des informations
         dd($projectDir);
         #return new Response('Hello word');
+    }
+
+    #[Route('/questions/new', name: "app_question_new",  methods:'POST')]
+    public function newQuestion(Request $request, EntityManagerInterface $manager): Response
+    {
+        //Pour créer l'objet formulaire
+        $form = $this->createForm(QuestionFormType::class);
+
+        dump($request);
+        dump($form);
+//        //Gérer le submit
+//        $form->handleRequest($request);
+//        dump($form);
+//
+//        if($form->isValid() && $form->isSynchronized()) {
+//            $data =$form->getData();
+//            $question = new Question();
+//            $question->setName($data['name'])
+//                ->setQuestion($data['question'])
+//                ->setAskedAt(new \DateTime())
+//                ->setUser($this->getUser());
+//            $manager->persist($question);
+//            $manager->flush();;
+//
+            //Message Flash
+//            $this->addFlash('sucess', 'Bien joué, une nouvelle question à été ajoutée');
+//
+//            return $this->redirectToRoute('app_homepage');
+//
+//        }
+
+        return $this->render('question/new.html.twig',
+            //Je passe la vue crée, pas l'objet
+            ['questionForm' => $form->createView()]
+        );
     }
 
     //La persistence de données dans la db
@@ -49,23 +86,23 @@ class QuestionController extends AbstractController
             'Merci de me conacter',
         ];
 
-//        //Créer un objet question
-//        //Mon objet n’aura aucun « id » tant
-//        //que je ne l’ai pas persisté en BDD,
-//        //Doctrine le set automatiquement une
-//        //fois le flush fait
-//        $addQuestion = new Question();
-//        //La syntaxe EOF, Notion multiligne pour rendre le code plus lisible
-//        $addQuestion->setName('Justin')->setSlug('comme un nom')->setQuestion("Quel objet?");
-//        if(rand(1, 10) > 2) {
-//            $addQuestion->setAskedAt(new \DateTime(sprintf('%d days', rand(1, 108))));
-//        }
-//        //Utiliser un service Doctrine EntityManagerInterface pour la persistence
-//        $entityManager->persist($addQuestion); //informe doctrine de l'objet semblable à : symfony console make: migration
-//        $entityManager->flush();//fait la query : symfony console d:m:m
+        //        //Créer un objet question
+        //        //Mon objet n’aura aucun « id » tant
+        //        //que je ne l’ai pas persisté en BDD,
+        //        //Doctrine le set automatiquement une
+        //        //fois le flush fait
+        //        $addQuestion = new Question();
+        //        //La syntaxe EOF, Notion multiligne pour rendre le code plus lisible
+        //        $addQuestion->setName('Justin')->setSlug('comme un nom')->setQuestion("Quel objet?");
+        //        if(rand(1, 10) > 2) {
+        //            $addQuestion->setAskedAt(new \DateTime(sprintf('%d days', rand(1, 108))));
+        //        }
+        //        //Utiliser un service Doctrine EntityManagerInterface pour la persistence
+        //        $entityManager->persist($addQuestion); //informe doctrine de l'objet semblable à : symfony console make: migration
+        //        $entityManager->flush();//fait la query : symfony console d:m:m
 
-//        //Debug question object
-//        dd($addQuestion);
+        //        //Debug question object
+        //        dd($addQuestion);
 
         //Récupérer le repository en passant le nom de mon entity
         $repository = $entityManager->getRepository(Question::class);
@@ -73,20 +110,20 @@ class QuestionController extends AbstractController
         //Interroger le repository qui proposes plusieurs méthodes dont pour faire le crud
         $getQuestion = $repository->findOneBy(['id' => $idQuestion]);
         $getAllQuestion = $repository->findAll();
-//      dump($getAllQuestion);
+        //      dump($getAllQuestion);
         //Trier de la date la plus récente à la plus vieille
         $getAllSortQuestion = $repository->findBy([], ['askedAt' => 'DESC']);
-//      dump($getAllQuestion);
+        //      dump($getAllQuestion);
         //dd($getAllQuestion);
 
         //Faire une 404 quand on recoit un résultat null
-        if(!$getQuestion) {
+        if (!$getQuestion) {
             throw $this->createNotFoundException("cette page n'existe pas");
             //rédireger l'utilisateur
         }
-//        dd($getQuestion);
-//        Utilisation de l’objet retourné par la db dans twig
-//        return new Response('Une nouvelle question ajoutée !',   $addQuestion->getName(), $getQuestion->setQuestion());
+        //        dd($getQuestion);
+        //        Utilisation de l’objet retourné par la db dans twig
+        //        return new Response('Une nouvelle question ajoutée !',   $addQuestion->getName(), $getQuestion->setQuestion());
         return $this->render(
             '/question/show.html.twig',
             [
@@ -95,6 +132,7 @@ class QuestionController extends AbstractController
             ]
         );
     }
+
     #Question $question : PARAM CONVERTER fais le lien entre le nom de la wildcard passée en URL et le type hint de l’entité
     #Les wildcards dans les routes, permet de passer de param à nos routes
     #[Route('/question/{id}', name: "app_question_by_id")]
@@ -108,13 +146,13 @@ class QuestionController extends AbstractController
     public function show($slug): Response
     {
         //idUniqque
-        $id= md5("azdbzjdbfd");
+        $id = md5("azdbzjdbfd");
 
         //Ajouter du markdown
         $question_text = "Ma pizza **me convient** ah merde";
 
-//        $testService = $helper->getStrong($question_text );
-//        $parsedQuestion = $helper->parse($question_text);
+        //        $testService = $helper->getStrong($question_text );
+        //        $parsedQuestion = $helper->parse($question_text);
 
         #Prend deux params, Le chemin.le nom du template et Un array avec toutes les variables que l’on veut passer au template
         #On nomme le template comme la méthode du controller et on le range dans un dossier avec un nom explicite
@@ -130,21 +168,22 @@ class QuestionController extends AbstractController
     }
 
     #[Route('/questions/{slug}/vote', name: "app_question_vote")]
-    public function questionVote(Question $question, Request $request, EntityManagerInterface $entityManager):Response {
-        $vote = $request->request-get('vote');
+    public function questionVote(Question $question, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $vote = $request->request->get('vote');
         $vote === 'up' ? $question->upVote() : $question->upDown();
-//      Inutile de persist() pour un update
+        //      Inutile de persist() pour un update
         $entityManager->flush();
-//      dd($request->request->all());
+        //      dd($request->request->all());
         return $this->redirectToRoute('app_questions', [
             'slug' => $question->getSlug()
         ]);
-
     }
 
     //Delete question
     #[Route('/questions/{id}/delete', name: "app_question_delete")]
-    public function questionDelete($id, EntityManagerInterface $entityManager):Response {
+    public function questionDelete($id, EntityManagerInterface $entityManager): Response
+    {
         $question = $entityManager->getReference(Question::class, $id);
         $entityManager->remove($question);
         $entityManager->flush();

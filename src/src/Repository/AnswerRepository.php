@@ -61,6 +61,36 @@ class AnswerRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    // Les réponses populaires, query custom, les jointures
+    /**
+     * @return Answer[] Returns an array of Answer objects
+     */
+    public function findMostPopular(string $search, int $max = 10): array
+    {
+        $QueryBuilder = $this->createQueryBuilder('answer')
+            ->addCriteria(self::createApprovedCriteria())
+            // Les jointures avec els données de answer.user et j'appelle l'entité créer 'user'
+            ->innerJoin('answer.user', 'user')
+            // sélectionner les données ramenées par la jointure
+            ->addSelect('user')
+            ->orderBy('answer.votes', 'DESC');
+
+        //adapter la query pour qu’elle accepte une recherche
+        if ($search !== null) {
+            $QueryBuilder->innerJoin('answer.user', 'user')
+                ->andWhere('answer.content LIKE :searchTerm 
+                OR question.name LIKE :searchTerm 
+                OR user.firstName LIKE :searchTerm 
+                OR user.lastName LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $search . '%');
+        }
+        return $QueryBuilder
+            //A commenter pour utiliser la pagination *
+            ->setMaxResults($max)
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
     //    /**

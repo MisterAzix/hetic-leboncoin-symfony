@@ -7,9 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,9 +29,6 @@ class User
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $password = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createDate = null;
 
@@ -36,6 +37,77 @@ class User
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: answer::class)]
     private Collection $answer;
+
+    #Attributs pour authentificaton/autorisation
+    #[ORM\Column(type: "json")]
+    private  $roles = [];
+
+    /**@var string The hashed password
+     * ORM\Column(type: "string")
+    */
+    private  $password;
+
+
+//    private $hasher;
+//
+//    public function __construct(UserPasswordHasherInterface $hasher) {
+//        parent::_construct();
+//        $this->hasher = $hasher;
+//    }
+
+
+    //Implémenter les méthodes d'authen/autorisation
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array {
+        $roles = $this->roles;
+        //Être sur que tous les utilisateurs ont au moins un rôle
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self{
+        $this->roles = $roles;
+        return $this;
+    }
+
+    /***
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getSalt(): ?string {
+        return  null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(){
+        //clean sensitive user data
+        //$this->>plainPassword = null
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string{
+       return (string) $this->email;
+    }
 
     public function __construct()
     {
@@ -72,17 +144,6 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
 
     public function getCreateDate(): ?\DateTimeInterface
     {

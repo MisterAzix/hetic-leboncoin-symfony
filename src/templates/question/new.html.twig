@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   Poser une question
+{% endblock %}
+
+{% block body %}
+    {{ Formulaire de question }}
+    <div>
+        {{ form_start(questionForm) }}
+        {{ form_widget(questionForm) }}
+        <button type="submit" class="">Create</button>
+        {{ form_end(questionForm) }}
+    </div>
+    {{ messsage flash }}
+    <div>
+        {% for message in app.flashes('sucess') %}
+            <div>{{ message }}</div>
+        {% endfor%}
+    </div>
+{% endblock %}
