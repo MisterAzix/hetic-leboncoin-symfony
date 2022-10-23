@@ -13,10 +13,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
 {
+
     #[Route('/user', name: 'app_user_index')]
     public function index(UserRepository $repository): Response
     {
         $users = $repository->findAll();
+        dd($users);
         return $this->render('user/index.html.twig', [
             'users' => $users,
         ]);

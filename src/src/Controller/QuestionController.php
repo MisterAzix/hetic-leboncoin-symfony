@@ -3,7 +3,9 @@
 namespace App\Controller;
 #Les méthodes de controller doivent retourner un objet de la classe « \Symfony\Component\HttpFoundation\ Response() »
 use App\Entity\Question;
+use App\Entity\User;
 use App\Factory\QuestionFactory;
+use App\Factory\UserFactory;
 use App\Form\QuestionFormType;
 use App\Repository\QuestionRepository;
 use App\service\MarkdownHelper;
@@ -25,9 +27,9 @@ class QuestionController extends AbstractController
     public function index(QuestionRepository $repository): Response
     {
         //query
-        $questions = $repository->findAll();
-        //Utiliser la query personnalisée
-        $questionsSort = $repository->findAllAskedOrderByNewest();
+        // $questions = $repository->findAll();
+        // //Utiliser la query personnalisée
+        // $questionsSort = $repository->findAllAskedOrderByNewest();
         //        dd($questionsSort);
         return new Response('Hello word');
     }
@@ -40,36 +42,45 @@ class QuestionController extends AbstractController
         #return new Response('Hello word');
     }
 
-    #[Route('/questions/new', name: "app_question_new",  methods:'POST')]
-    public function newQuestion(Request $request, EntityManagerInterface $manager): Response
+    #[Route('/questions/new', name: "app_question_new")]
+    public function newQuestion(Request $request, EntityManagerInterface $manager, UserFactory $userFactory): Response
     {
         //Pour créer l'objet formulaire
         $form = $this->createForm(QuestionFormType::class);
 
-        dump($request);
+        //Gérer le submit
+        $form->handleRequest($request);
         dump($form);
-//        //Gérer le submit
-//        $form->handleRequest($request);
-//        dump($form);
-//
-//        if($form->isValid() && $form->isSynchronized()) {
-//            $data =$form->getData();
-//            $question = new Question();
-//            $question->setName($data['name'])
-//                ->setQuestion($data['question'])
-//                ->setAskedAt(new \DateTime())
-//                ->setUser($this->getUser());
-//            $manager->persist($question);
-//            $manager->flush();;
-//
-            //Message Flash
-//            $this->addFlash('sucess', 'Bien joué, une nouvelle question à été ajoutée');
-//
-//            return $this->redirectToRoute('app_homepage');
-//
-//        }
 
-        return $this->render('question/new.html.twig',
+        if ($form->isValid() && $form->isSynchronized()) {
+            $data = $form->getData();
+            $question = new Question();
+            $user = new User();
+            $question->setName($data['name'])
+                ->setQuestion($data['question'])
+                ->setSlug('yasuke')
+                ->setCreatedAt(new \DateTime())
+                ->setUpdatedAt(new \DateTime())
+                ->setAskedAt(new \DateTime())
+                ->setUser(
+                    $user->setCreateDate(new \DateTime())
+                        ->setEmail('sdzddd')
+                        ->setFirstName('yaya')
+                        ->setName('hahaha')
+                        ->setPassword('hahaha')
+                        ->setRoles(['admin'])
+                );
+            $manager->persist($question);
+            $manager->flush();
+
+            // Message Flash
+            $this->addFlash('sucess', 'Bien joué, une nouvelle question à été ajoutée');
+
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        return $this->render(
+            'question/new.html.twig',
             //Je passe la vue crée, pas l'objet
             ['questionForm' => $form->createView()]
         );
@@ -190,6 +201,4 @@ class QuestionController extends AbstractController
 
         return $this->redirectToRoute('app_question_index');
     }
-
-
 }

@@ -7,13 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User implements PasswordAuthenticatedUserInterface
+/**
+ * @method string getUserIdentifier()
+ */
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -42,37 +43,29 @@ class User implements PasswordAuthenticatedUserInterface
     #[ORM\Column(type: "json")]
     private  $roles = [];
 
-    /**@var string The hashed password
-     * ORM\Column(type: "string")
-    */
+    #[ORM\Column(type: "string")]
     private  $password;
 
-
-//    private $hasher;
-//
-//    public function __construct(UserPasswordHasherInterface $hasher) {
-//        parent::_construct();
-//        $this->hasher = $hasher;
-//    }
-
-
     //Implémenter les méthodes d'authen/autorisation
+
     /**
      * @see UserInterface
      */
-    public function getRoles(): array {
+    public function getRoles(): array
+    {
         $roles = $this->roles;
         //Être sur que tous les utilisateurs ont au moins un rôle
         $roles[] = 'ROLE_USER';
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self{
+    public function setRoles(array $roles): self
+    {
         $this->roles = $roles;
         return $this;
     }
 
-    /***
+    /**
      * @see PasswordAuthenticatedUserInterface
      */
     public function getPassword(): string
@@ -90,14 +83,16 @@ class User implements PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt(): ?string {
+    public function getSalt(): ?string
+    {
         return  null;
     }
 
     /**
      * @see UserInterface
      */
-    public function eraseCredentials(){
+    public function eraseCredentials()
+    {
         //clean sensitive user data
         //$this->>plainPassword = null
     }
@@ -105,8 +100,9 @@ class User implements PasswordAuthenticatedUserInterface
     /**
      * @deprecated since Symfony 5.3, use getUserIdentifier instead
      */
-    public function getUsername(): string{
-       return (string) $this->email;
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
     }
 
     public function __construct()
@@ -114,6 +110,7 @@ class User implements PasswordAuthenticatedUserInterface
         $this->question = new ArrayCollection();
         $this->answer = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {

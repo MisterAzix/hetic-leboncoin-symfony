@@ -16,13 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class AnswerController extends AbstractController
 {
     #[Route('/answers/show', name: "app_answers_index")]
-    public function index(AnswerRepository $answerRepository, EntityManagerInterface $entityManager ): Response
+    public function index(AnswerRepository $answerRepository, EntityManagerInterface $entityManager): Response
     {
         $answers = $answerRepository->findAll();
-         //ManyToOne = OneToMany
-         $question = QuestionFactory::createOne();
-         $answer = new Answer();
-         $answer->setContent('du contenu')->setUser(UserFactory::createOne());
+        //ManyToOne = OneToMany
+        $question = QuestionFactory::createOne();
+        $answer = new Answer();
+        $answer->setContent('du contenu')->setUser(UserFactory::createOne());
 
         //ManyToMAny
         //Question et tag
@@ -38,12 +38,12 @@ class AnswerController extends AbstractController
         $entityManager->persist($tag1);
         $entityManager->persist($tag2);
         $entityManager->flush();
-       
+
 
         //Ajouter une question à une réponse 
-         $question->addAnswer(($answer));
+        $question->addAnswer(($answer));
         //Fonctionne tout aussi bien que ca 
-         $answer->setQuestion($question);
+        $answer->setQuestion($question);
 
         return $this->render(
             '/answer/index.html.twig',

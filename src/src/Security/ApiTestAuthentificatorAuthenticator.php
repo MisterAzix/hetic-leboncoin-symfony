@@ -2,6 +2,8 @@
 
 namespace App\Security;
 
+use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,45 +11,47 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
-use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
-class EmptyAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
+
+
+class ApiTestAuthentificatorAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
+    private $userRepository;
     private $urlGenerator;
 
-    public function __construct(UrlGeneratorInterface $urlGeneratorInterface)
+    public function __construct(UserRepository $userRepository, UrlGeneratorInterface $urlGeneratorInterface)
     {
+        $this->userRepository = $userRepository;
         $this->urlGenerator = $urlGeneratorInterface;
     }
     public function supports(Request $request): ?bool
     {
-        return $request->attributes->get('_route') === 'app_login' && $request->isMethod('POST');
+        return $request->headers->has('MON_TOKEN');
     }
-    //Cette méthode va donc contenir toute la logique d’authentication.
+
     public function authenticate(Request $request): Passport
     {
-        //Faire une authentication
-        $email = $request->get('email');
-        $password = $request->get('password');
-        // Vérifier le CSRF
-        // $csrd = $request->request->get('csrf');''
+        $userId = $request->headers->get('MON_TOKEN');
 
-        return new Passport(
-            new UserBadge($email),
-            new PasswordCredentials($password),
-            // autorisera la connexion uniquement si le CSRF est valide
-            // [
-            //     new CsrfTokenBadge('login_form', $csrd)
-            // ]
+        return new SelfValidatingPassport(
+            new UserBadge(
+                $userId,
+                function (string $userId) {
+                    return $this->userRepository->findOneBy([
+                        'id' => $userId
+                    ]);
+                }
+            )
         );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // dd($token);
         return new RedirectResponse('/');
     }
 
