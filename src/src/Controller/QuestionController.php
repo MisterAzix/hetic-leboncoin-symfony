@@ -23,7 +23,7 @@ class QuestionController extends AbstractController
     #mettre les routes de la plus spécifique vers la moins spécifique
     #Les annotations se mettent dans un commentaire PHPDoc
     #autowire le repository comme un service pour ne plus avoir à appeler l’entity manager
-    #[Route('/', name: "app_question_index")]
+    #[Route('/', name: "app_home")]
     public function index(QuestionRepository $repository): Response
     {
         //query
@@ -45,38 +45,32 @@ class QuestionController extends AbstractController
     #[Route('/questions/new', name: "app_question_new")]
     public function newQuestion(Request $request, EntityManagerInterface $manager, UserFactory $userFactory): Response
     {
-        //Pour créer l'objet formulaire
+
         $form = $this->createForm(QuestionFormType::class);
+        // Récupérer un utilisateur
+        $loggedUser = $this->getUser();
 
         //Gérer le submit
         $form->handleRequest($request);
-        dump($form);
 
-        if ($form->isValid() && $form->isSynchronized()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $question = new Question();
-            $user = new User();
             $question->setName($data['name'])
                 ->setQuestion($data['question'])
-                ->setSlug('yasuke')
+                ->setSlug('yassukess')
                 ->setCreatedAt(new \DateTime())
                 ->setUpdatedAt(new \DateTime())
                 ->setAskedAt(new \DateTime())
-                ->setUser(
-                    $user->setCreateDate(new \DateTime())
-                        ->setEmail('sdzddd')
-                        ->setFirstName('yaya')
-                        ->setName('hahaha')
-                        ->setPassword('hahaha')
-                        ->setRoles(['admin'])
-                );
+                ->setUser($loggedUser);
+
             $manager->persist($question);
             $manager->flush();
 
             // Message Flash
             $this->addFlash('sucess', 'Bien joué, une nouvelle question à été ajoutée');
 
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('app_question_new');
         }
 
         return $this->render(
@@ -85,6 +79,8 @@ class QuestionController extends AbstractController
             ['questionForm' => $form->createView()]
         );
     }
+
+
 
     //La persistence de données dans la db
     //Les entity sont présentes automatiquement dans les controllers
@@ -199,6 +195,6 @@ class QuestionController extends AbstractController
         $entityManager->remove($question);
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_question_index');
+        return $this->redirectToRoute('app_home');
     }
 }

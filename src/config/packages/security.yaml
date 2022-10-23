@@ -31,11 +31,16 @@ security:
             logout:
                 path: app_logout
                 target: /login
+            # https://symfony.com/doc/current/security/remember_me.html
+            remember_me:
+                secret:   '%kernel.secret%' # required
+                lifetime: 604800 # 1 week in seconds
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
+            
         
 
     # Easy way to control access for large sections of your site
@@ -43,8 +48,14 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        # exiger d’être authentifié avec au moins le « ROLE_USER » pour accéder aux routes commençant par « /api »
-        - { path: ^/api, roles: ROLE_USER }
+        # exiger d’être authentifié avec le « ROLE_ADMIN » pour accéder aux routes commençant par « /admin»
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        # exiger d’être authentifié avec le « ROLE_USER» pour accéder aux routes commençant par « /profile»
+        - { path: ^/profile, roles: ROLE_USER }
+        # Tout le monde peut accéder 
+        - { path: ^/login$, roles: PUBLIC_ACCESS }
+        # Proteger tout le site
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
         
 
 when@test:

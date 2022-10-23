@@ -6,16 +6,17 @@
 
 {% block body %}
 	{# Formulaire de question  #}
-	<div>
+	<div class="container">
 		{{ form_start(questionForm) }}
 		{{ form_widget(questionForm) }}
-		<button type="submit" class="">Create</button>
+		<button type="submit" class="btn btn-primary">Create</button>
 		{{ form_end(questionForm) }}
 	</div>
 	{#  messsage flash } #}
 	<div>
 		{% for message in app.flashes('sucess') %}
-			<div>{{ message }}</div>
+			<div class="btn btn-success">{{ message }}</div>
 			{% endfor%}
 		</div>
+		<a href="{{ path('app_home') }}" type="button" class="btn btn-info">Go to home</a>
 	{% endblock %}
