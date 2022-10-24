@@ -1,26 +1,42 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Inscription{% endblock %}
+
 {% block body %}
 <div class="col">
-    <h1>Création d'utilisateur</h1>
-    <form action="{{ path('app_user_create_api') }}" method="post">
-        <div class="mb-3">
-            <label for="firstName" class="form-class">Prénom</label>
-            <input type="text" class="form-control" id="firstName" name="firstName">
-        </div>
+    <h1>Inscription</h1>
+    <form class="mx-auto mt-5" style="max-width: 400px" method="post">
         <div class="mb-3">
             <label for="name" class="form-class">Nom</label>
             <input type="text" class="form-control" id="name" name="name">
         </div>
         <div class="mb-3">
-            <label for="email" class="form-class">Adresse Email</label>
+            <label for="firstName" class="form-class">Prénom</label>
+            <input type="text" class="form-control" id="firstName" name="firstName">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-class">Pseudo</label>
+            <input type="text" class="form-control" id="login" name="login">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-class">Tel</label>
+            <input type="text" class="form-control" id="phone" name="phone">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-class">Email</label>
             <input type="email" class="form-control" id="email" name="email">
         </div>
         <div class="mb-3">
             <label for="password" class="form-class">Mot de passe</label>
             <input type="password" class="form-control" id="password" name="password">
         </div>
-        <button type="submit" class="btn btn-primary">Envoyer</button>
+        <div class="mb-3">
+            <label for="password2" class="form-class">Vérification mot de passe</label>
+            <input type="password" class="form-control" id="password2" name="password2">
+        </div>
+        <input type="hidden" name="csrf" value="{{ csrf_token('create_form') }}">
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
     </form>
+    <a href="{{ path('app_login' )}}">Se connecter</a>
 </div>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Factory;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\AsciiStringType;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
@@ -31,20 +32,23 @@ use Zenstruck\Foundry\Proxy;
  */
 final class UserFactory extends ModelFactory
 {
-    public function __construct()
+    private $hasher;
+
+    public function __construct(UserPasswordHasherInterface $hasher)
     {
         parent::__construct();
 
-        // TODO inject services if required (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services)
+        $this->hasher = $hasher;
     }
 
     protected function getDefaults(): array
     {
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'name' => self::faker()->lastName(40),
-            'first_name' => self::faker()->firstName(40),
-            'password' => self::faker()->password(),
+            'name' => self::faker()->lastName(),
+            'first_name' => self::faker()->firstName(),
+            'login' => self::faker()->name(),
+            'phone' => self::faker()->phoneNumber(),
             'createDate' => self::faker()->dateTime('now') // TODO add DATETIME ORM type manually
         ];
     }
@@ -55,6 +59,7 @@ final class UserFactory extends ModelFactory
         return $this->afterInstantiate(function(User $user) {
             $email = strtolower($user->getFirstName()) . '.' . strtolower($user->getName()) . "@gmail.com";
             $user->setEmail($email);
+            $user->setPassword($this->hasher->hashPassword($user, 'password'));
         })
         ;
     }
