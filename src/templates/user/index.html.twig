@@ -1,34 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!
+{% block title %}User index
 {% endblock %}
 
 {% block body %}
-	<style>
-		.example-wrapper {
-			margin: 1em auto;
-			max-width: 800px;
-			width: 95%;
-			font: 18px / 1.5 sans-serif;
-		}
-		.example-wrapper code {
-			background: #F5F5F5;
-			padding: 2px 6px;
-		}
-	</style>
+	<h1>User index</h1>
 
-	<div class="example-wrapper">
-
-		<h1>Hello users! ✅</h1>
-		<ul>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>First_name</th>
+				<th>Email</th>
+				<th>CreateDate</th>
+				<th>Roles</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
 			{% for user in users %}
-
-				<li>{{ user.name }}
-					:
-					{{ user.email }}</li>
-
+				<tr>
+					<td>{{ user.name }}</td>
+					<td>{{ user.firstName }}</td>
+					<td>{{ user.email }}</td>
+					<td>{{ user.createDate ? user.createDate|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+					<td>
+						<a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+						<a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="8">no records found</td>
+				</tr>
 			{% endfor %}
-		</ul>
-	</div>
+		</tbody>
+	</table>
 
+	<a href="{{ path('app_user_new') }}">Create new</a>
 {% endblock %}

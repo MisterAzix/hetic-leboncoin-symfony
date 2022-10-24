@@ -20,7 +20,6 @@ security:
             entry_point: 'App\Security\LoginFormAuthenticator'
             custom_authenticator:
                 - App\Security\LoginFormAuthenticator
-                - App\Security\EmptyAuthenticator
             logout:
                 path: app_logout
                 target: /login
@@ -49,8 +48,6 @@ security:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         # Tout le monde peut accéder
         - { path: ^/user/new, roles: PUBLIC_ACCESS }
-        # Tout le monde peut accéder
-        - { path: ^/user/create, roles: PUBLIC_ACCESS }
         # Proteger tout le site
         - { path: ^/, roles: PUBLIC_ACCESS }
 
@@ -67,6 +64,10 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
-
-            App\Entity\User: 'sodium'
-
+            App\Entity\User: 
+                 # the new hasher, along with its options
+                algorithm: sodium
+                migrate_from:
+                    - bcrypt # uses the "bcrypt" hasher with the default options
+                    - legacy # uses the "legacy" hasher configured above
+            

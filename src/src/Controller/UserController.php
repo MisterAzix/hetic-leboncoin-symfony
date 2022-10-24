@@ -3,96 +3,90 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserEditType;
+use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/user')]
 class UserController extends AbstractController
 {
+    private $passwordHasher;
 
-    #[Route('/user', name: 'app_user_index')]
-    public function index(UserRepository $repository): Response
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
     {
-        $users = $repository->findAll();
-        // dd($users);
+        $this->passwordHasher = $passwordHasher;
+    }
+
+    #[Route('/', name: 'app_user_index', methods: ['GET'])]
+    public function index(UserRepository $userRepository): Response
+    {
         return $this->render('user/index.html.twig', [
-            'users' => $users,
+            'users' => $userRepository->findAll(),
         ]);
     }
 
-    #[Route('/user/new', name: 'app_user_new')]
-    public function addUser(): Response
-    {
-        return $this->render('user/user_new.html.twig');
-    }
-
-    #[Route('/user/create', name: 'app_user_create_api', methods: 'POST')]
-    public function createUser(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $hasher): Response
+    #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        $user->setName($request->request->get('name'))
-            ->setFirstName($request->request->get('firstName'))
-            ->setEmail($request->request->get('email'))
-            ->setPassword($hasher->hashPassword($user, $request->request->get('password')))
-            ->setCreateDate(new \DateTime());
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
 
-        $entityManager->persist($user);
-        $entityManager->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+            $user->setPassword($this->passwordHasher->hashPassword($user, $form->getData()->getPassword()))
+                ->setCreateDate(new \DateTime());
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-        return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('user/new.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
     }
 
-    // #[isGranted('ROLE_ADMIN')]
-    // #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')")]
-    #[Route('/user/{email}', name: 'app_user_show')]
+    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
-        // Vérifier le rôle de l'utilisateur
-        // $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
-        //Croiser des conditions
-        // if($this->getUser() == $user && !$this->isGranted('ROLE_ADMIN_ANSWER')){
-        //     throw $this->createAccessDeniedException('no access !');
-        // }
-
-        return $this->render('user/user_show.html.twig', [
-            'user' => $user
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
         ]);
     }
 
-    #[Route('/user/{email}/modify', name: 'app_user_modify')]
-    public function modify(User $user): Response
+    #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, User $user, UserRepository $userRepository): Response
     {
-        return $this->render('user/user_modify.html.twig', [
-            'user' => $user
+        $form = $this->createForm(UserEditType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->save($user, true);
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('user/edit.html.twig', [
+            'user' => $user,
+            'form' => $form,
         ]);
     }
 
-    #[Route('/user/{email}/update', name: 'app_user_update_api', methods: 'POST')]
-    public function update(User $user, EntityManagerInterface $entityManager, Request $request): Response
+    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
+    public function delete(Request $request, User $user, UserRepository $userRepository): Response
     {
-        $user->setFirstName($request->request->get('firstName'))
-            ->setName($request->request->get('name'))
-            ->setEmail($request->request->get('email'))
-            ->setPassword($request->request->get('password'));
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            $userRepository->remove($user, true);
+        }
 
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_user_show', [
-            'email' => $user->getEmail()
-        ]);
-    }
-
-    #[Route('/user/{email}/delete', name: 'app_user_delete_api')]
-    public function delete(User $user, EntityManagerInterface $entityManager): Response
-    {
-        $entityManager->remove($user);
-        $entityManager->flush();
-
-        return $this->redirectToRoute('/user');
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }
