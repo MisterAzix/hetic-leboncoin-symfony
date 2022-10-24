@@ -12,11 +12,15 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $user = $options['data'] ?? null;
+        $isEdit = $user && $user->getId();
         $builder
             ->add('name')
             ->add('first_name')
-            ->add('email')
-            ->add('password');
+            ->add('email');
+        if (!$isEdit) {
+            $builder->add('password');
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
