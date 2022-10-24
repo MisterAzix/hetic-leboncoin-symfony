@@ -3,18 +3,40 @@
 {% block title %}Hello AppController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+      .example-wrapper {
+        margin: 1em auto;
+        max-width: 800px;
+        width: 95%;
+        font: 18px/1.5 sans-serif;
+      }
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+      .example-wrapper code {
+        background: #F5F5F5;
+        padding: 2px 6px;
+      }
+    </style>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/html/src/Controller/AppController.php'|file_link(0) }}">src/Controller/AppController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/html/templates/app/index.html.twig'|file_link(0) }}">templates/app/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="mx-4">
+        <h1 class="font-medium">Titre</h1>
+        <nav>
+            <ul class="d-flex">
+                <li>
+                    <a class='font-normal' href="#">Voir toutes les annonces</a>
+                </li>
+                <li>
+                    <a class='font-normal font-medium' href="#">+ déposer une annonce</a>
+                </li>
+                <li>
+                    <a class='font-normal' href="#">Voir toutes les annonces</a>
+                </li>
+                <li>
+                    <a class='font-normal' href="#">Voir toutes les annonces</a>
+                </li>
+                <li>
+                    <a class='font-normal' href="#">Voir toutes les annonces</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 {% endblock %}
