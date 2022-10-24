@@ -1,0 +1,41 @@
+@font-face {
+  font-family: 'NeueHaasGroteskText Pro';
+  src: url('../fonts/NHaasGroteskTXPro-55Rg.woff2') format('woff2'),
+  url('../fonts/NHaasGroteskTXPro-55Rg.woff') format('woff'),
+  url('../fonts/NHaasGroteskTXPro-55Rg.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeueHaasGroteskText Pro Md';
+  src: url('../fonts/NHaasGroteskTXPro-65Md.woff2') format('woff2'),
+  url('../fonts/NHaasGroteskTXPro-65Md.woff') format('woff'),
+  url('../fonts/NHaasGroteskTXPro-65Md.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: '../fonts/NeueHaasGroteskText Pro';
+  src: url('../fonts/../fonts/NHaasGroteskTXPro-75Bd.woff2') format('woff2'),
+  url('../fonts/NHaasGroteskTXPro-75Bd.woff') format('woff'),
+  url('../fonts/NHaasGroteskTXPro-75Bd.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-normal {
+  font-family: 'NeueHaasGroteskText Pro';
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-medium {
+  font-family: 'NeueHaasGroteskText Pro Md';
+  font-weight: 500;
+  font-style: normal;
+}
