@@ -1,4 +1,61 @@
 {{ form_start(form) }}
+
+    {% if form_errors(form) %}
+        <div class="alert alert-danger rounded-0">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+
+    <div>
+        {{ form_row(form.title,
+            {
+                'attr': {
+                    'class': 'rounded-0 border border-dark',
+                    'placeholder': 'Title'
+                },
+                'label': false
+            })
+        }}
+    </div>
+
+    <div>
+        {{ form_row(form.price,
+            {
+                'attr': {
+                    'class': 'rounded-0 border border-dark',
+                    'placeholder': 'Price'
+                },
+                'label': false
+            })
+        }}
+    </div>
+
+    <div>
+        {{ form_row(form.description,
+            {
+                'attr': {
+                    'class': 'rounded-0 border border-dark',
+                    'placeholder': 'Description'
+                },
+                'label': false
+            })
+        }}
+    </div>
+
+    <div>
+        {{ form_row(form.thumbnailsUrls,
+            {
+                'attr': {
+                    'class': 'rounded-0 border border-dark'
+                },
+                'label': false
+            })
+        }}
+    </div>
+
+
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="d-grid">
+        <button class="btn btn-dark rounded-0">{{ button_label|default('Save') }}</button>
+    </div>
 {{ form_end(form) }}
