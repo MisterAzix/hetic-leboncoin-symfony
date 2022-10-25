@@ -1,0 +1,44 @@
+.home-slogan {
+  margin-top: 151px;
+}
+
+.search-bar {
+  margin-bottom: 5vh;
+}
+
+.logo {
+  transform: translateX(-50%);
+}
+
+.w-fit-content {
+  width: fit-content;
+}
+
+@media (max-width: 768px) {
+  .home-slogan {
+    margin-top: 91px;
+  }
+
+  .search-bar {
+    width: 95% !important;
+  }
+
+  .announces a img {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 1200px) {
+  .search-bar {
+    width: 75% !important;
+  }
+}
+
+@media (max-width: 1030px) {
+  .logo {
+    transform: translateX(0%);
+  }
+}
+
+
+

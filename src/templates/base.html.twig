@@ -19,10 +19,29 @@
         {# { encore_entry_script_tags('app') } #}
     {% endblock %}
     <link rel="stylesheet" href="/styles/global.css">
+    <link rel="stylesheet" href="/styles/home.css">
 </head>
-<body>
-{% block body %}
+<body class="bg-white">
+<nav class="z-index-10 nav-mobile position-absolute bg-white h-100 w-75 hide-on-desktop">
+    <ul class="mt-5">
+        <li class="mb-2">
+            <a href="#" class="fs-2">Voir les annonces</a>
+        </li>
+        <li class="mb-2">
+            <a href="#" class="fs-2">+ Déposer une annonce</a>
+        </li>
+        <li class="mb-2">
+            <a href="#" class="fs-2">S'inscrire</a>
+        </li>
+        <li class="mb-2">
+            <a href="#" class="fs-2">Se connecter</a>
+        </li>
+    </ul>
+</nav>
+<div class="container-fluid vh-100">
+    {% block body %}
 
-{% endblock %}
+    {% endblock %}
+</div>
 </body>
 </html>

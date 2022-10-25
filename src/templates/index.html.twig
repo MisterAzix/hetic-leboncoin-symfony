@@ -3,40 +3,47 @@
 {% block title %}Hello AppController!{% endblock %}
 
 {% block body %}
-    <style>
-      .example-wrapper {
-        margin: 1em auto;
-        max-width: 800px;
-        width: 95%;
-        font: 18px/1.5 sans-serif;
-      }
+    <nav class="border-bottom border-dark">
+        <ul class="m-0 ps-0 py-3 d-flex justify-content-between align-items-center position-relative">
+            <li>
+                <a class='font-normal pe-4 d-sm-none d-md-inline hide-on-mobile' href="#">Voir toutes les annonces</a>
+                <a class='font-normal font-medium d-sm-none d-md-inline hide-on-mobile' href="#">+ déposer une
+                    annonce</a>
+            </li>
+            <li class="logo">
+                <a class='font-normal font-medium fs-3' href="#">
+                    THE MARKET
+                </a>
+            </li>
+            <li>
+                <a class='font-normal pe-4 d-sm-none d-md-inline hide-on-mobile' href="#">S'inscrire</a>
+                <a class='font-normal d-sm-none d-md-inline hide-on-mobile' href="#">Se connecter</a>
+            </li>
+            <li class="position-absolute d-sm-inline d-md-none end-0">
+                <button class="mobile-btn btn btn-outline-dark">
+                    <span class="inline-block line">menu</span>
+                </button>
+                <button class="mobile-btn btn btn-outline-dark position-absolute start-0">
+                    <span class="inline-block line">close</span>
+                </button>
+            </li>
+        </ul>
+    </nav>
 
-      .example-wrapper code {
-        background: #F5F5F5;
-        padding: 2px 6px;
-      }
-    </style>
-
-    <div class="mx-4">
-        <h1 class="font-medium">Titre</h1>
-        <nav>
-            <ul class="d-flex">
-                <li>
-                    <a class='font-normal' href="#">Voir toutes les annonces</a>
-                </li>
-                <li>
-                    <a class='font-normal font-medium' href="#">+ déposer une annonce</a>
-                </li>
-                <li>
-                    <a class='font-normal' href="#">Voir toutes les annonces</a>
-                </li>
-                <li>
-                    <a class='font-normal' href="#">Voir toutes les annonces</a>
-                </li>
-                <li>
-                    <a class='font-normal' href="#">Voir toutes les annonces</a>
-                </li>
-            </ul>
-        </nav>
+    <h1 class="home-slogan font-normal text-center mb-5">Vous cherchez quelque chose ?<br/>
+        <b class="font-medium">On le vend.</b>
+    </h1>
+    <form class="search-bar w-50 mx-auto d-flex">
+        <input class="form-control me-2" type="search" placeholder="Rechercher..."
+               aria-label="Search">
+        <button class="btn btn-outline-dark" type="submit">Rechercher</button>
+    </form>
+    <h3>Nos dernières annonces :</h3>
+    <div class="d-flex gap-3 flex-wrap last-announces">
+        {# TODO : Faire une boucle #}
+        {% include 'partials/card.html.twig' %}
+        {% include 'partials/card.html.twig' %}
+        {% include 'partials/card.html.twig' %}
+        {% include 'partials/card.html.twig' %}
     </div>
 {% endblock %}
