@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ad;
 use App\Form\AdType;
 use App\Repository\AdRepository;
+use App\Service\UploadHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,7 @@ class AdController extends AbstractController
     }
 
     #[Route('/new', name: 'app_ad_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, AdRepository $adRepository): Response
+    public function new(Request $request, AdRepository $adRepository, UploadHelper $helper): Response
     {
         $ad = new Ad();
         $form = $this->createForm(AdType::class, $ad);
@@ -30,6 +31,16 @@ class AdController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ad->setUser($this->getUser());
+
+            $newFiles = $form['thumbnailsUrls']->getData();
+            if (count($newFiles) > 0) {
+                $filenames = [];
+                foreach ($newFiles as $newFile) {
+                    $filenames[] = $helper->uploadAdImage($newFile);
+                }
+                $ad->setThumbnailsUrls($filenames);
+            }
+
             $adRepository->save($ad, true);
 
             return $this->redirectToRoute('app_ad_index', [], Response::HTTP_SEE_OTHER);
@@ -50,12 +61,21 @@ class AdController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_ad_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Ad $ad, AdRepository $adRepository): Response
+    public function edit(Request $request, Ad $ad, AdRepository $adRepository, UploadHelper $helper): Response
     {
         $form = $this->createForm(AdType::class, $ad);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $newFiles = $form['thumbnailsUrls']->getData();
+            if (count($newFiles) > 0) {
+                $filenames = [];
+                foreach ($newFiles as $newFile) {
+                    $filenames[] = $helper->uploadAdImage($newFile);
+                }
+                $ad->setThumbnailsUrls($filenames);
+            }
+
             $adRepository->save($ad, true);
 
             return $this->redirectToRoute('app_ad_index', [], Response::HTTP_SEE_OTHER);
