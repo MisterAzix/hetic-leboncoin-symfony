@@ -3788,8 +3788,6 @@
         },
         {
             "name": "symfony/form",
-<<<<<<< HEAD
-=======
             "version": "v6.1.5",
             "source": {
                 "type": "git",
