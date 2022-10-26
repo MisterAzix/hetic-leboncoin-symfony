@@ -3,18 +3,21 @@
 {% block title %}Hello AppController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/html/src/Controller/AppController.php'|file_link(0) }}">src/Controller/AppController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/html/templates/app/index.html.twig'|file_link(0) }}">templates/app/index.html.twig</a></code></li>
-    </ul>
-</div>
+    {% include 'partials/navbar.html.twig' %}
+    <h1 class="home-slogan font-normal text-center mb-5">Vous cherchez quelque chose ?<br/>
+        <b class="font-medium">On le vend.</b>
+    </h1>
+    <form class="search-bar w-50 mx-auto d-flex">
+        <input class="form-control me-2" type="search" placeholder="Rechercher..."
+               aria-label="Search">
+        <button class="btn btn-outline-dark" type="submit">Rechercher</button>
+    </form>
+    <h3>Nos dernières annonces :</h3>
+    <div class="d-flex gap-3 flex-wrap last-announces">
+        {# TODO : Faire une boucle #}
+        {% include 'partials/card.html.twig' %}
+        {% include 'partials/card.html.twig' %}
+        {% include 'partials/card.html.twig' %}
+        {% include 'partials/card.html.twig' %}
+    </div>
 {% endblock %}
