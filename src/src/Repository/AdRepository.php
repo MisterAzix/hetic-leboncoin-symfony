@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Ad;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -63,4 +64,24 @@ class AdRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findMostPopular(string $search = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('ad')
+            ->innerJoin('ad.user', 'user')
+            ->addSelect('user');
+
+        if ($search !== null) {
+            $queryBuilder
+                ->andWhere('ad.description LIKE :searchterm
+                OR ad.title LIKE : searchterm
+                OR user.firstName LIKE : searchterm
+                OR user.name LIKE : searchterm')
+                ->setParameter('searchterm', '%' . $search . '%');
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
 }

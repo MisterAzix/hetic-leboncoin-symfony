@@ -22,6 +22,17 @@ class AdController extends AbstractController
         ]);
     }
 
+    #[Route('/popular', name: 'app_ad_popular')]
+    public function mostPopular(AdRepository $adRepository, Request $request)
+    {
+        $search = $request->request->get('q');
+        $popularAds = $adRepository->findMostPopular($search);
+
+        return $this->render('ad/popular.html.twig', [
+            'ads' => $popularAds
+        ]);
+    }
+
     #[Route('/new', name: 'app_ad_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AdRepository $adRepository, UploadHelper $helper): Response
     {

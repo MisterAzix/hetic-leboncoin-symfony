@@ -11,6 +11,7 @@
 			</a>
 		</li>
 		<li>
+			{% include 'partials/_searchbar.html.twig' %}
 			{% if app.user %}
 				<a href="{{ path('app_logout') }}" type="button" lass='font-normal d-sm-none d-md-inline hide-on-mobile'>se déconnecter</a>
 			{% else %}

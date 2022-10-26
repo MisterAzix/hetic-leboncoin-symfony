@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Popular Ads{% endblock %}
+
+{% block body %}
+<div class="d-flex gap-3 flex-wrap last-announces">
+
+    {% for ad in ads %}
+        {% include 'partials/_card.html.twig' %}
+    {% else %}
+        <p>Aucunes annonces pour le moment...</p>
+    {% endfor %}
+</div>
+{% endblock %}
