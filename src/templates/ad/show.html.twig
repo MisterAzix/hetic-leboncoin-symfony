@@ -4,76 +4,100 @@
 {% endblock %}
 
 {% block body %}
-	<div>
-		<h1>Ad</h1>
+<div>
+    <h1 class="mt-3">Ad</h1>
+    <div class="mt-5 d-flex show">
+        <div class="w-75 show__announces-description--left">
+            <div class="show__announces-images d-flex">
+                {% for imagePath in ad.thumbnailsPaths %}
+                    <img width="202" height="314" class="show__image" src="{{ asset(imagePath) }}" alt=""/>
+                {% endfor %}
+            </div>
+            <h1 class="my-3">{{ ad.title }}</h1>
+            <p class="m-0">{{ ad.price }}€</p>
+            <span class="announces-date">
+                <time class='font-12' datetime="a dynamiser">13 Octobre 2022,</time>
+                <time class='font-12' datetime="a dynamiser">20:22</time>
+            </span>
+            <h2 class="mt-4">Description :</h2>
+            <p class="m-0 show__announces-description">{{ ad.description }}</p>
+            <p class="font-medium show__questions-section">Lire les questions à propos de ce produit :</p>
+            {#            <a class="d-flex align-items-center font-medium" href="{{ ad.user.firstName }}"> #}
+            {#                <svg class='me-2' width="24" height="25" viewBox="0 0 24 25" fill="none" #}
+            {#                     xmlns="http://www.w3.org/2000/svg"> #}
+            {#                    <path d="M15.2417 12.8125C16.9207 11.8555 18.0887 10.205 18.4305 8.30523C18.7725 6.40546 18.2534 4.45228 17.0129 2.97181C15.7726 1.49135 13.9385 0.635742 12.005 0.635742C10.0715 0.635742 8.2374 1.49135 6.99703 2.97181C5.7567 4.45247 5.23752 6.40565 5.57939 8.30523C5.92139 10.205 7.08918 11.8555 8.76844 12.8125C3.71831 14.0918 0 18.2784 0 23.2359V23.6422C0.0223483 23.9788 0.30555 24.2385 0.643354 24.2321H23.3696C23.7023 24.2314 23.9778 23.9737 24 23.6422V23.2359C24.013 18.2788 20.2943 14.0919 15.2418 12.8125H15.2417ZM6.74098 7.15508C6.7375 5.76183 7.28834 4.42419 8.27239 3.4362C9.25643 2.44821 10.5931 1.89062 11.989 1.88589C13.3847 1.88132 14.7251 2.43009 15.7157 3.41153C16.7062 4.39315 17.266 5.72714 17.2717 7.12039C17.2776 8.51365 16.7289 9.85217 15.7465 10.8419C14.7643 11.8315 13.4283 12.3913 12.0327 12.3982H11.9801H11.9803C10.591 12.39 9.2613 11.8344 8.28016 10.8526C7.29902 9.87081 6.74599 8.54197 6.74106 7.15513L6.74098 7.15508ZM1.26832 22.9709C1.42586 17.8327 6.16089 13.6935 11.9646 13.6724H12.0487C17.8524 13.6934 22.5874 17.8302 22.745 22.9709H1.26832Z" #}
+            {#                          fill="black"/> #}
+            {#                </svg> #}
+            {#                Pseudo #}
+            {#            </a> #}
+            {{ include('question/_form.html.twig') }}
+        </div>
+        <div class="w-md-25 pt-4 px-4 mb-4 mb-lg-0 border border-dark show__announces-description--right">
+            <a class="d-flex fs-4 align-items-center font-medium" href="{{ ad.user.firstName }}">
+                <svg class='me-2' width="44" height="43.26" viewBox="0 0 24 25" fill="none"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15.2417 12.8125C16.9207 11.8555 18.0887 10.205 18.4305 8.30523C18.7725 6.40546 18.2534 4.45228 17.0129 2.97181C15.7726 1.49135 13.9385 0.635742 12.005 0.635742C10.0715 0.635742 8.2374 1.49135 6.99703 2.97181C5.7567 4.45247 5.23752 6.40565 5.57939 8.30523C5.92139 10.205 7.08918 11.8555 8.76844 12.8125C3.71831 14.0918 0 18.2784 0 23.2359V23.6422C0.0223483 23.9788 0.30555 24.2385 0.643354 24.2321H23.3696C23.7023 24.2314 23.9778 23.9737 24 23.6422V23.2359C24.013 18.2788 20.2943 14.0919 15.2418 12.8125H15.2417ZM6.74098 7.15508C6.7375 5.76183 7.28834 4.42419 8.27239 3.4362C9.25643 2.44821 10.5931 1.89062 11.989 1.88589C13.3847 1.88132 14.7251 2.43009 15.7157 3.41153C16.7062 4.39315 17.266 5.72714 17.2717 7.12039C17.2776 8.51365 16.7289 9.85217 15.7465 10.8419C14.7643 11.8315 13.4283 12.3913 12.0327 12.3982H11.9801H11.9803C10.591 12.39 9.2613 11.8344 8.28016 10.8526C7.29902 9.87081 6.74599 8.54197 6.74106 7.15513L6.74098 7.15508ZM1.26832 22.9709C1.42586 17.8327 6.16089 13.6935 11.9646 13.6724H12.0487C17.8524 13.6934 22.5874 17.8302 22.745 22.9709H1.26832Z"
+                          fill="black"/>
+                </svg>
+                Pseudo
+            </a>
+            <p class="fs-5 font-medium m-0 mt-3">Recommendé ce vendeur</p>
+            <div class="d-inline-flex mb-4 mb-lg-0 justify-content-center align-items-center mt-3">
+                <button class='bg-transparent p-0 me-3 sd-flex justify-content-center align-items-center border border-dark'
+                        type="button">
+                    <svg class='my-2 mx-4' width="24" height="16" viewBox="0 0 24 16" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M24 12.0573L12 0.214843L0 12.0573L3.20009 15.2148L11.9999 6.5306L20.7996 15.2148L24 12.0573Z"
+                              fill="black"/>
+                    </svg>
+                </button>
+                <button class='rotate-180 bg-transparent p-0 d-flex justify-content-center align-items-center border border-dark'
+                        type="button">
+                    <svg class='my-2 mx-4' width="24" height="16" viewBox="0 0 24 16" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M24 12.0573L12 0.214843L0 12.0573L3.20009 15.2148L11.9999 6.5306L20.7996 15.2148L24 12.0573Z"
+                              fill="black"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
-		<table class="table">
-			<tbody>
-				<tr>
-					<th>Id</th>
-					<td>{{ ad.id }}</td>
-				</tr>
-				<tr>
-					<th>Title</th>
-					<td>{{ ad.title }}</td>
-				</tr>
-				<tr>
-					<th>Price</th>
-					<td>{{ ad.price }}</td>
-				</tr>
-				<tr>
-					<th>Tags</th>
-					<td>{{ ad.tags ? ad.tags|map(t => t.name)|join(', ') : '' }}</td>
-				</tr>
-				<tr>
-					<th>Thumbnails_urls</th>
-					<td>{{ ad.thumbnailsUrls ? ad.thumbnailsUrls|join(', ') : '' }}</td>
-				</tr>
-			</tbody>
-		</table>
+        {% for question in ad.questions %}
+            <div data-question id="question-{{ question.id }}" class="my-3">
+                <div title="{{ question.askedAt ? question.askedAt|date('Y-m-d H:i:s') : '' }}" class="fw-bold">
+                    {{ question.user.firstname }}
+                    ({{ question.askedAt ? question.askedAt|date('H:i:s') : '' }})
+                    <button data-answer-btn class="btn btn-link">Répondre</button>
+                </div>
+                <div>{{ question.question }}</div>
+                {% if question.answers is not empty %}
+                    <ul>
+                        {% for answer in question.approvedAnswers %}
+                            <div>->
+                                {{ answer.answer }}</div>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <div data-answer-form class="d-none">
+                    {{ include('answer/_form.html.twig') }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+      const questions = document.querySelectorAll('[data-question]')
+      const answerForms = document.querySelectorAll('[data-answer-form]')
 
-		<a href="{{ path('app_ad_index') }}">back to list</a>
-
-		<a href="{{ path('app_ad_edit', {'id': ad.id}) }}">edit</a>
-
-		{{ include('ad/_delete_form.html.twig') }}
-	</div>
-	<hr/>
-	{{ include('question/_form.html.twig') }}
-	{% for question in ad.questions %}
-		<div data-question id="question-{{ question.id }}" class="my-3">
-			<div title="{{ question.askedAt ? question.askedAt|date('Y-m-d H:i:s') : '' }}" class="fw-bold">
-				{{ question.user.firstname }}
-				({{ question.askedAt ? question.askedAt|date('H:i:s') : '' }})
-				<button data-answer-btn class="btn btn-link">Répondre</button>
-			</div>
-			<div>{{ question.question }}</div>
-			{% if question.answers is not empty %}
-				<ul>
-					{% for answer in question.approvedAnswers  %}
-						<div>->
-							{{ answer.answer }}</div>
-					{% endfor %}
-				</ul>
-			{% endif %}
-			<div data-answer-form class="d-none">
-				{{ include('answer/_form.html.twig') }}
-			</div>
-		</div>
-	{% endfor %}
-
-	<script>
-		const questions = document.querySelectorAll('[data-question]');
-const answerForms = document.querySelectorAll('[data-answer-form]');
-
-questions.forEach(q => {
-const answerBtn = q.querySelector('[data-answer-btn]');
-answerBtn ?. addEventListener('click', (e) => {
-e.preventDefault();
-const answerForm = q.querySelector('[data-answer-form]');
-answerForm.classList.toggle('d-none');
-answerForms.forEach(form => !q.contains(form) && form.classList.add('d-none'));
-});
-});
-	</script>
-{% endblock %}
+      questions.forEach(q => {
+        const answerBtn = q.querySelector('[data-answer-btn]')
+        answerBtn?.addEventListener('click', (e) => {
+          e.preventDefault()
+          const answerForm = q.querySelector('[data-answer-form]')
+          answerForm.classList.toggle('d-none')
+          answerForms.forEach(form => !q.contains(form) && form.classList.add('d-none'))
+        })
+      })
+    </script>
+    {% endblock %}

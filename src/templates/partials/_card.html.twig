@@ -11,4 +11,5 @@
         <time class='font-12' datetime="a dynamiser">{{ ad.createdAt ? ad.createdAt|date('H:i:s') : '' }}</time>
     </span>
     <h4 class="font-12">{{ ad.tags|map(t => t.name)|join(', ') }}</h4>
+    <p class="font-medium">{{ ad.price }}€</p>
 </div>

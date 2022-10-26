@@ -22,9 +22,10 @@
     <link rel="stylesheet" href="/styles/home.css">
     <link rel="stylesheet" href="/styles/all-ad.css">
     <link rel="stylesheet" href="/styles/footer.css">
+    <link rel="stylesheet" href="/styles/ad-show.css">
 </head>
 <body class="bg-white">
-<nav class="z-index-10 nav-mobile position-absolute bg-white h-100 w-75 hide-on-desktop">
+<nav class="z-index-10 nav-mobile position-fixed bg-white h-100 w-75 hide-on-desktop">
     <ul class="mt-5">
         <li class="mb-2">
             <a href="#" class="fs-2">Voir les annonces</a>
@@ -40,14 +41,13 @@
         </li>
     </ul>
 </nav>
-    <main class="mx-auto container-fluid-custom vh-100 d-flex flex-column justify-content-between">
-        {% include 'partials/_navbar.html.twig' %}
-        <section>
-            {% block body %}
-
-            {% endblock %}
-        </section>
-        {% include 'partials/_footer.html.twig' %}
-    </main>
+<main class="mx-auto container-fluid-custom vh-100 d-flex flex-column justify-content-between">
+    {% include 'partials/_navbar.html.twig' %}
+    <section>
+        {% block body %}
+        {% endblock %}
+    </section>
+    {% include 'partials/_footer.html.twig' %}
+</main>
 </body>
 </html>
