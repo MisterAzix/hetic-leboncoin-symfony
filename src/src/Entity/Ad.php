@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AdRepository;
+use App\Service\UploadHelper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -93,5 +94,19 @@ class Ad
         $this->thumbnails_urls = $thumbnails_urls;
 
         return $this;
+    }
+
+    public function getThumbnailsPaths(): array
+    {
+        $paths = [];
+        if (count($this->getThumbnailsUrls()) > 0) {
+            foreach ($this->getThumbnailsUrls() as $thumbnailsUrl) {
+                $paths[] = UploadHelper::AD_IMAGE_PATH . '/' . $thumbnailsUrl;
+            }
+        } else {
+            $paths[] = UploadHelper::DEFAULT_IMAGE_PATH;
+        }
+
+        return $paths;
     }
 }

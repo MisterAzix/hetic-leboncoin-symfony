@@ -21,7 +21,11 @@
                 <td>{{ ad.id }}</td>
                 <td>{{ ad.title }}</td>
                 <td>{{ ad.price }}</td>
-                <td>{{ ad.thumbnailsUrls ? ad.thumbnailsUrls|join(', ') : '' }}</td>
+                <td>
+                    {% for thumbnailPath in ad.thumbnailsPaths %}
+                        <img src="{{ asset(thumbnailPath) }}" alt="" width="100px">
+                    {% endfor %}
+                </td>
                 <td>
                     <a href="{{ path('app_ad_show', {'id': ad.id}) }}">show</a>
                     <a href="{{ path('app_ad_edit', {'id': ad.id}) }}">edit</a>

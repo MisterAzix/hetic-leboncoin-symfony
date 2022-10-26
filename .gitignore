@@ -55,3 +55,4 @@
 .idea
 .vscode
 .DS_Store
+/src/public/uploads/
