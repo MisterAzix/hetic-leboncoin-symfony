@@ -14,6 +14,12 @@
   width: fit-content;
 }
 
+.announces a img {
+  max-width: 314px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
 @media (max-width: 768px) {
   .home-slogan {
     margin-top: 91px;
@@ -24,7 +30,8 @@
   }
 
   .announces a img {
-    width: 100% !important;
+    width: 100%;
+    max-width: none;
   }
 }
 
