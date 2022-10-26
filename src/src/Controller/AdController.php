@@ -30,7 +30,7 @@ class AdController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $ad->setUser($this->getUser());
+            $ad->setUser($this->getUser())->setCreatedAt(new \DateTime());
 
             $newFiles = $form['thumbnailsUrls']->getData();
             if (count($newFiles) > 0) {
@@ -90,7 +90,7 @@ class AdController extends AbstractController
     #[Route('/{id}', name: 'app_ad_delete', methods: ['POST'])]
     public function delete(Request $request, Ad $ad, AdRepository $adRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$ad->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $ad->getId(), $request->request->get('_token'))) {
             $adRepository->remove($ad, true);
         }
 
