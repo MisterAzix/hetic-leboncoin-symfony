@@ -1,4 +1,65 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{# {{ form_start(form) }}
+{{ form_widget(form) }}
+<button class="btn">{{ button_label|default("S'inscrire") }}</button>
+{{ form_end(form) }} #}
+
+{% if form_errors(form) %}
+	<div class="alert alert-danger rounded-0">
+		{{ form_errors(form) }}
+	</div>
+{% endif %}
+
+<div>
+	{{ form_row(form.name,
+            {
+                'attr': {
+                    'class': 'rounded-0 border border-dark',
+                    'placeholder': 'Nom'
+                },
+                'label': false
+            })
+        }}
+</div>
+
+<div>
+	{{ form_row(form.first_name,
+            {
+                'attr': {
+                    'class': 'rounded-0 border border-dark',
+                    'placeholder': 'Prénom'
+                },
+                'label': false
+            })
+        }}
+</div>
+
+<div>
+	{{ form_row(form.email,
+            {
+                'attr': {
+                    'class': 'rounded-0 border border-dark',
+                    'placeholder': 'E-mail'
+                },
+                'label': false
+            })
+        }}
+</div>
+
+<div>
+	{{ form_row(form.password,
+            {
+                'attr': {
+                    'class': 'rounded-0 border border-dark',
+                    'placeholder': 'Mot de passe'
+                },
+                'label': false
+            })
+        }}
+</div>
+
+
+{{ form_widget(form) }}
+<div class="d-grid">
+	<button class="btn btn-dark rounded-0">{{ button_label|default("S'inscrire") }}</button>
+</div>
 {{ form_end(form) }}

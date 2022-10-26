@@ -4,30 +4,29 @@
 {% endblock %}
 
 {% block body %}
-	<form method="post" class="container">
-		{% if error %}
-			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-		{% endif %}
 
-		{% if app.user %}
-			<div class='text-end'>
-				{% if is_granted("ROLE_USER")%}
-					<div class="mb-3">
-						You are logged in as
-						{{ app.user.userIdentifier }},
-						<a href="{{ path('app_logout') }}" type="button" class="btn btn-success">Logout</a>
-					</div>
-				{% else %}
-					<a href="{{ path('app_login') }}" type="button" class="btn btn-primary">Login</a>
-					<a href="{{ path('app_user_new') }}" type="button" class="btn btn-warning">Sign-up</a>
-				{% endif %}
-			</div>
-		{% else %}
-			<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-			<label for="inputEmail">Email</label>
-			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-			<label for="inputPassword">Password</label>
-			<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+	{% if error %}
+		<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+	{% endif %}
+
+	{% if app.user %}
+		<div class='text-end'>
+			{% if is_granted("ROLE_USER")%}
+				<div class="mb-3">
+					You are logged in as
+					{{ app.user.userIdentifier }},
+					<a href="{{ path('app_logout') }}" type="button" class="btn btn-success">Logout</a>
+				</div>
+			{% else %}
+				<a href="{{ path('app_login') }}" type="button" class="btn btn-primary">Login</a>
+				<a href="{{ path('app_user_new') }}" type="button" class="btn btn-warning">Sign-up</a>
+			{% endif %}
+		</div>
+	{% else %}
+		<form method="post" class="container-fluid w-25 position-absolute top-50 start-50 translate-middle">
+			<h1 class="h3 mb-3 font-weight-normal text-center">Connexion</h1>
+			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="Email">
+			<input type="password" name="password" id="inputPassword" class="form-control mt-3" autocomplete="current-password" required placeholder="Password">
 
 			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 			<div class="checkbox mb-3">
@@ -38,12 +37,12 @@
 			</div>
 
 
-			<button class="btn btn-lg btn-primary" type="submit">
-				Sign in
+			<button class="btn btn-lg btn-dark w-100" type="submit">
+				S'inscrire
 			</button>
-			<button class="btn btn-lg btn-warning">
-				<a href="{{ path('app_user_new') }}">Sign-up</a>
-			</button>
+			<p class="text-dark">Pas encore inscrit ?
+				<a class="text-secondary" href="{{ path('app_user_new') }}">Inscrivez-vous</a>
+			</p>
 		</form>
 
 	{% endif %}
