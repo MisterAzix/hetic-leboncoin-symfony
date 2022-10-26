@@ -39,6 +39,9 @@ class Ad
     #[ORM\OneToMany(mappedBy: 'ad', targetEntity: Question::class, orphanRemoval: true)]
     private Collection $questions;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created_at = null;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -177,6 +180,18 @@ class Ad
                 $question->setAd(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }
