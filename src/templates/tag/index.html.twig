@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tag index{% endblock %}
+
+{% block body %}
+
+    <div class="h-75 d-flex flex-column justify-content-center">
+        <h1 class="text-center py-3">Créer un tag</h1>
+
+        <div class="row">
+            <div class="col-4 mx-auto">
+                {{ include('ad/_form.html.twig', {'button_label': 'Créer le tag'}) }}
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h1>Tags</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tag in tags %}
+                <tr>
+                    <td>{{ tag.id }}</td>
+                    <td>{{ tag.name }}</td>
+                    <td>
+                        {{ include('tag/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
