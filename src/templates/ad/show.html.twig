@@ -86,18 +86,19 @@
             </div>
         </div>
     </div>
-    <script>
-      const questions = document.querySelectorAll('[data-question]')
-      const answerForms = document.querySelectorAll('[data-answer-form]')
+</div>
+<script>
+    const questions = document.querySelectorAll('[data-question]')
+    const answerForms = document.querySelectorAll('[data-answer-form]')
 
-      questions.forEach(q => {
+    questions.forEach(q => {
         const answerBtn = q.querySelector('[data-answer-btn]')
         answerBtn?.addEventListener('click', (e) => {
-          e.preventDefault()
-          const answerForm = q.querySelector('[data-answer-form]')
-          answerForm.classList.toggle('d-none')
-          answerForms.forEach(form => !q.contains(form) && form.classList.add('d-none'))
+            e.preventDefault()
+            const answerForm = q.querySelector('[data-answer-form]')
+            answerForm.classList.toggle('d-none')
+            answerForms.forEach(form => !q.contains(form) && form.classList.add('d-none'))
         })
-      })
-    </script>
-    {% endblock %}
+    })
+</script>
+{% endblock %}
