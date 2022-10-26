@@ -3892,7 +3892,6 @@
         },
         {
             "name": "symfony/framework-bundle",
->>>>>>> 8f53646 (Search)
             "version": "v6.1.5",
             "source": {
                 "type": "git",
