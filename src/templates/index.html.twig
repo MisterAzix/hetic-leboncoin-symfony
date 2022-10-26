@@ -1,24 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenue sur THE MARKET{% endblock %}
+{% block title %}Bienvenue sur THE MARKET
+{% endblock %}
 
 {% block body %}
-    <header>
-        <h1 class="home-slogan font-normal text-center mb-5">Vous cherchez quelque chose ?<br/>
-            <b class="font-medium">On le vend.</b>
-        </h1>
-        <form class="search-bar w-50 mx-auto d-flex">
-            <input class="form-control me-2" type="search" placeholder="Rechercher..."
-                   aria-label="Search">
-            <button class="btn btn-outline-dark" type="submit">Rechercher</button>
-        </form>
-        <h3>Nos dernières annonces :</h3>
-        <div class="d-flex gap-3 flex-wrap last-announces">
-            {% for ad in ads %}
-                {% include 'partials/_card.html.twig' %}
-            {% else %}
-                <p>Aucunes annonces pour le moment...</p>
-            {% endfor %}
-        </div>
-    </header>
+	<header>
+		<h1 class="home-slogan font-normal text-center mb-5">Vous cherchez quelque chose ?<br/>
+			<b class="font-medium">On le vend.</b>
+		</h1>
+		{% include 'search.html.twig' %}
+		<h3>Nos dernières annonces :</h3>
+		<div class="d-flex gap-3 flex-wrap last-announces">
+			{% for ad in ads %}
+				{% include 'partials/_card.html.twig' %}
+			{% else %}
+				<p>Aucunes annonces pour le moment...</p>
+			{% endfor %}
+		</div>
+	</header>
 {% endblock %}

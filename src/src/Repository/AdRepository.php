@@ -39,28 +39,51 @@ class AdRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Ad[] Returns an array of Ad objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function searchAds(string $search = null): array
+    {
+        $queryBuilder = $this->createQueryBuilder('ad')
+            ->innerJoin('ad.user', 'user')
+            ->addSelect('user')
+            ->orderBy('ad.title', 'DESC');
 
-//    public function findOneBySomeField($value): ?Ad
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($search !== null) {
+            $queryBuilder
+                ->andWhere('ad.description LIKE :searchterm
+                OR ad.title LIKE :searchterm
+                OR user.first_name LIKE :searchterm
+                OR user.name LIKE :searchterm')
+                ->setParameter('searchterm', '%' . $search . '%');
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+    //    /**
+    //     * @return Ad[] Returns an array of Ad objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('a')
+    //            ->andWhere('a.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('a.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Ad
+    //    {
+    //        return $this->createQueryBuilder('a')
+    //            ->andWhere('a.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
