@@ -1,34 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ad index{% endblock %}
+{% block title %}Ad index
+{% endblock %}
 
 {% block body %}
-    <div class="d-flex justify-content-between my-4">
-        <h3 class="all-ad-description">Annonces :</h3>
-        <form class="w-50 mx-md-auto d-flex">
-            <input class="form-control me-2" type="search" placeholder="Rechercher..."
-                   aria-label="Search">
-            <button class="btn btn-outline-dark" type="submit">Rechercher</button>
-        </form>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle bg-black" type="button" id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                Filtrer par tags
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-        </div>
-    </div>
-    <div class="d-flex gap-3 flex-wrap last-announces">
-        {# TODO : Faire une boucle #}
+	<div class="d-flex justify-content-between my-4">
+		<h3 class="all-ad-description">Annonces :</h3>
+		{% include 'search.html.twig' %}
+		<div class="dropdown">
+			<button class="btn btn-secondary dropdown-toggle bg-black" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+				Filtrer par tags
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+				<li>
+					<a class="dropdown-item" href="#">Action</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">Another action</a>
+				</li>
+				<li>
+					<a class="dropdown-item" href="#">Something else here</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div
+		class="d-flex gap-3 flex-wrap last-announces">
+		{# TODO : Faire une boucle #}
 
-        {% for ad in ads %}
-            {% include 'partials/_card.html.twig' %}
-        {% else %}
-            <p>Aucunes annonces pour le moment...</p>
-        {% endfor %}
-    </div>
+		{% for ad in ads %}
+			{% include 'partials/_card.html.twig' %}
+		{% else %}
+			<p>Aucunes annonces pour le moment...</p>
+		{% endfor %}
+	</div>
 {% endblock %}
