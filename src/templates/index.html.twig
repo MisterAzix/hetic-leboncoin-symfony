@@ -1,23 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AppController!{% endblock %}
+{% block title %}Bienvenue sur THE MARKET{% endblock %}
 
 {% block body %}
-    {% include 'partials/navbar.html.twig' %}
-    <h1 class="home-slogan font-normal text-center mb-5">Vous cherchez quelque chose ?<br/>
-        <b class="font-medium">On le vend.</b>
-    </h1>
-    <form class="search-bar w-50 mx-auto d-flex">
-        <input class="form-control me-2" type="search" placeholder="Rechercher..."
-               aria-label="Search">
-        <button class="btn btn-outline-dark" type="submit">Rechercher</button>
-    </form>
-    <h3>Nos dernières annonces :</h3>
-    <div class="d-flex gap-3 flex-wrap last-announces">
-        {# TODO : Faire une boucle #}
-        {% include 'partials/card.html.twig' %}
-        {% include 'partials/card.html.twig' %}
-        {% include 'partials/card.html.twig' %}
-        {% include 'partials/card.html.twig' %}
-    </div>
+    <header>
+        {% include 'partials/_navbar.html.twig' %}
+        <h1 class="home-slogan font-normal text-center mb-5">Vous cherchez quelque chose ?<br/>
+            <b class="font-medium">On le vend.</b>
+        </h1>
+        <form class="search-bar w-50 mx-auto d-flex">
+            <input class="form-control me-2" type="search" placeholder="Rechercher..."
+                   aria-label="Search">
+            <button class="btn btn-outline-dark" type="submit">Rechercher</button>
+        </form>
+        <h3>Nos dernières annonces :</h3>
+        <div class="d-flex gap-3 flex-wrap last-announces">
+            {# TODO : Faire une boucle #}
+            {% include 'partials/_card.html.twig' %}
+            {% include 'partials/_card.html.twig' %}
+            {% include 'partials/_card.html.twig' %}
+            {% include 'partials/_card.html.twig' %}
+        </div>
+    </header>
 {% endblock %}

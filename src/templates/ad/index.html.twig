@@ -3,43 +3,39 @@
 {% block title %}Ad index{% endblock %}
 
 {% block body %}
-    <div>
-        <h1>Mes annonces</h1>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th>Thumbnails_urls</th>
-                    <th>actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for ad in ads %}
-                <tr>
-                    <td>{{ ad.id }}</td>
-                    <td>{{ ad.title }}</td>
-                    <td>{{ ad.price }}</td>
-                    <td>
-                        {% for thumbnailPath in ad.thumbnailsPaths %}
-                            <img src="{{ asset(thumbnailPath) }}" alt="" width="100px">
-                        {% endfor %}
-                    </td>
-                    <td>
-                        <a href="{{ path('app_ad_show', {'id': ad.id}) }}">show</a>
-                        <a href="{{ path('app_ad_edit', {'id': ad.id}) }}">edit</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-        <a href="{{ path('app_ad_new') }}">Create new</a>
+    {% include 'partials/_navbar.html.twig' %}
+    <div class="d-flex justify-content-between my-4">
+        <h3 class="all-ad-description">Annonces :</h3>
+        <form class="w-50 mx-md-auto d-flex">
+            <input class="form-control me-2" type="search" placeholder="Rechercher..."
+                   aria-label="Search">
+            <button class="btn btn-outline-dark" type="submit">Rechercher</button>
+        </form>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle bg-black" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                Filtrer par tags
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="d-flex gap-3 flex-wrap last-announces">
+        {# TODO : Faire une boucle #}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
+        {% include 'partials/_card.html.twig' %}
     </div>
 {% endblock %}

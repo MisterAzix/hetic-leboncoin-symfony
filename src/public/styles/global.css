@@ -70,9 +70,18 @@ ul {
   list-style: none;
 }
 
+.container-fluid-custom {
+  width: 92%;
+}
+
+
 @media (max-width: 576px) {
   .hide-on-mobile {
     display: none;
+  }
+
+  .container-fluid-custom {
+    width: 95%;
   }
 }
 
@@ -112,3 +121,9 @@ html.open-mobile-menu .nav-mobile {
 .vh-100 {
   min-height: 100vh;
 }
+
+.bg-black {
+  background-color: var(--black) !important;
+}
+
+
