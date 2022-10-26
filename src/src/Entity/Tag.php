@@ -22,7 +22,7 @@ class Tag
     #[ORM\Column(length: 15)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Ad::class, inversedBy: 'tags')]
+    #[ORM\ManyToMany(targetEntity: Ad::class, mappedBy: 'tags')]
     private Collection $ads;
 
     public function __construct()

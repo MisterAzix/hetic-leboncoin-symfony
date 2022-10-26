@@ -33,7 +33,7 @@ class Ad
     #[ORM\Column]
     private array $thumbnails_urls = [];
 
-    #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'ad')]
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'ads')]
     private Collection $tags;
 
     #[ORM\OneToMany(mappedBy: 'ad', targetEntity: Question::class, orphanRemoval: true)]
