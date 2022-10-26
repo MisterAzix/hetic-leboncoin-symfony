@@ -36,9 +36,13 @@ class Ad
     #[ORM\ManyToMany(targetEntity: Tag::class, mappedBy: 'ad')]
     private Collection $tags;
 
+    #[ORM\OneToMany(mappedBy: 'ad', targetEntity: Question::class, orphanRemoval: true)]
+    private Collection $questions;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -142,6 +146,36 @@ class Ad
     {
         if ($this->tags->removeElement($tag)) {
             $tag->removeAd($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions->add($question);
+            $question->setAd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getAd() === $this) {
+                $question->setAd(null);
+            }
         }
 
         return $this;
