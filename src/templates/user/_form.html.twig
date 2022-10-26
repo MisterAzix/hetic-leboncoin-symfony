@@ -1,8 +1,4 @@
-{# {{ form_start(form) }}
-{{ form_widget(form) }}
-<button class="btn">{{ button_label|default("S'inscrire") }}</button>
-{{ form_end(form) }} #}
-
+{{ form_start(form) }}
 {% if form_errors(form) %}
 	<div class="alert alert-danger rounded-0">
 		{{ form_errors(form) }}
@@ -60,6 +56,6 @@
 
 {{ form_widget(form) }}
 <div class="d-grid">
-	<button class="btn btn-dark rounded-0">{{ button_label|default("S'inscrire") }}</button>
+	<button type="submit" class="btn btn-dark rounded-0">{{ button_label|default("S'inscrire") }}</button>
 </div>
 {{ form_end(form) }}
