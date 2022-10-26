@@ -47,9 +47,9 @@ security:
         # Tout le monde peut accéder
         - { path: ^/login$, roles: PUBLIC_ACCESS }
         # Tout le monde peut accéder
-        - { path: ^/user/new, roles: PUBLIC_ACCESS }
+        - { path: ^/user/new$, roles: PUBLIC_ACCESS }
         # Proteger tout le site
-        - { path: ^/, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 
 when@test:
