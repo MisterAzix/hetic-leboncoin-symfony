@@ -4,6 +4,8 @@ namespace App\Factory;
 
 use App\Entity\Ad;
 use App\Repository\AdRepository;
+use App\Service\UploadHelper;
+use Symfony\Component\HttpFoundation\File\File;
 use Zenstruck\Foundry\RepositoryProxy;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
@@ -29,23 +31,41 @@ use Zenstruck\Foundry\Proxy;
  */
 final class AdFactory extends ModelFactory
 {
-    public function __construct()
+    private $helper;
+    private static $templateThumbnails = [
+        'blue_product.png',
+        'dark_blue_product.png',
+        'green_product.png',
+        'orange_product.png',
+        'pink_product.png',
+        'purple_product.png',
+        'red_product.png',
+        'yellow_product.png',
+    ];
+
+    public function __construct(UploadHelper $helper)
     {
         parent::__construct();
-
-        // TODO inject services if required (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services)
+        $this->helper = $helper;
     }
 
     protected function getDefaults(): array
     {
+        $thumbnailsNumber = rand(1, 3);
+        $thumbnailsArray = [];
+        for ($i = 0; $i < $thumbnailsNumber; $i++) {
+            $thumbnailsArray[] = $this->helper->fixtureUpload(
+                new File(__DIR__.'/Template_images/'.self::faker()->randomElement(self::$templateThumbnails))
+            );
+        }
+
         return [
-            // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'title' => self::faker()->title(),
-            'description' => self::faker()->text(),
+            'title' => self::faker()->text(40),
+            'description' => self::faker()->realText(),
             'price' => self::faker()->randomFloat(),
-            'thumbnails_urls' => [self::faker()->imageUrl()],
             'user' => UserFactory::random(),
-            'tags' => TagFactory::randomRange(0, 5)
+            'tags' => TagFactory::randomRange(0, 5),
+            'thumbnails_urls' => $thumbnailsArray,
         ];
     }
 
@@ -53,7 +73,7 @@ final class AdFactory extends ModelFactory
     {
         // see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
         return $this
-            // ->afterInstantiate(function(Ad $ad): void {})
+            # ->afterInstantiate(function(Ad $ad): void {})
         ;
     }
 
