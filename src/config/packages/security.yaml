@@ -11,8 +11,8 @@ security:
                 class: 'App\Entity\User'
                 property: 'email'
     role_hierarchy:
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN_USER, ROLE_ADMIN_AD, ROLE_ADMIN_TAG]
-        ROLE_EDITOR: [ROLE_ADMIN_AD, ROLE_ADMIN_TAG]
+        ROLE_USER: [ROLE_ADMIN, ROLE_PURCHASER]
+        ROLE_VENDOR: [ROLE_ADMIN, ROLE_PURCHASER]
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
