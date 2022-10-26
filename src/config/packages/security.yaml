@@ -22,7 +22,7 @@ security:
                 - App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
-                target: /login
+                target: /
             # https://symfony.com/doc/current/security/remember_me.html
             remember_me:
                 secret:   '%kernel.secret%' # required
