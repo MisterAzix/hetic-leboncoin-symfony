@@ -6,21 +6,21 @@
         </div>
     {% endif %}
 
-    <div>
-        {{ form_row(form.name,
-            {
-                'attr': {
-                    'class': 'rounded-0 border border-dark',
-                    'placeholder': 'Name'
-                },
-                'label': false
-            })
-        }}
-    </div>
+<div>
+    {{ form_row(form.name,
+        {
+            'attr': {
+            'class': 'rounded-0 border border-dark',
+            'placeholder': 'Name'
+        },
+            'label': false
+        })
+    }}
+</div>
 
 
-    {{ form_widget(form) }}
-    <div class="d-grid">
-        <button class="btn btn-dark rounded-0">{{ button_label|default('Save') }}</button>
-    </div>
+{{ form_widget(form) }}
+<div class="d-grid">
+    <button class="btn btn-dark rounded-0">{{ button_label|default('Save') }}</button>
+</div>
 {{ form_end(form) }}
