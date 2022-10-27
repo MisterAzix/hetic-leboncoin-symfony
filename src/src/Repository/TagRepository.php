@@ -39,31 +39,6 @@ class TagRepository extends ServiceEntityRepository
         }
     }
 
-    //filtrer les annnonces par 10 tags les plus recents
-    //name
-    //Opt 1: select * from ad where ad.id in (select ad.id from tag orderBy ad.id limite 10 )
-    //Opt sfn
-    // public function filterTag(string $search = null): array
-    // {
-    //     $queryBuilder = $this->createQueryBuilder('tag')
-    //         ->innerJoin('ad.user', 'user')
-    //         ->addSelect('user')
-    //         ->orderBy('ad.title', 'DESC');
-
-    //     if ($search !== null) {
-    //         $queryBuilder
-    //             ->andWhere('ad.description LIKE :searchterm
-    //             OR ad.title LIKE :searchterm
-    //             OR user.first_name LIKE :searchterm
-    //             OR user.name LIKE :searchterm')
-    //             ->setParameter('searchterm', '%' . $search . '%');
-    //     }
-
-    //     return $queryBuilder
-    //         ->getQuery()
-    //         ->getResult();
-    // }
-
     //    /**
     //     * @return Tag[] Returns an array of Tag objects
     //     */
