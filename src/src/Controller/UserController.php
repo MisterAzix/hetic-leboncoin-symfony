@@ -101,15 +101,16 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/vote', name: "app_user_vote", methods: 'POST')]
+    #[Route('/{id}/vote', name: "app_user_vote", methods: ['GET', 'POST'])]
     public function userVote(User $user, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $direction = $request->request->get('direction');
-        $direction === 'up' ?  $user->upVote() : $user->upDown();
-        $entityManager->flush();
-        // dump($answer->getVotes());
-        return $this->json([
-            'votes' => $user->getVotes()
+        if ($this->getUser()->getId() !== $user->getId()) {
+            $request->query->get('vote') === 'up' ? $user->upVote() : $user->upDown();
+            $entityManager->flush();
+        }
+
+        return $this->render('user/vote.html.twig', [
+            'user' => $user
         ]);
     }
 }

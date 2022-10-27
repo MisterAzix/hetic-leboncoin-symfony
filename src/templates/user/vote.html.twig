@@ -1,19 +1,11 @@
-{# {% for user in users %}
-	<li>
-		<h1>Vote :
-		</h1>
-		<div class="js-vote">
-			<button class="js-vote-up" name="vote" data-direction="up" data-id="{{ user.id }}">vote up</button>
-			<button class="js-vote-down" name="vote" data-direction="down" data-id="{{ user.id }}">vote down</button>
-			<span class="js-vote-total">{{ answer.votes }}</span>
-		</div>
-	</li>
-{% endfor %} #}
+{% extends 'base.html.twig' %}
 
-<div class='col'>
-	<form action="{{path('app_user_vote'))}}" methods: 'POST'>
-		<button class="" name="vote" value="up" data-id="{{ user.id }}">Vote up</button>
-		<button class="" name="vote" value="down" data-id="{{ user.id }}">Vote down</button>
-		<span class="">{{user.votesString}}</span>
-	</form>
-</div>
+{% block body %}
+	<div class='col'>
+		<form action="{{path('app_user_vote', {'id': user.id})}}" methods:'post'>
+			<button class="" name="vote" value="up">Vote up</button>
+			<button class="" name="vote" value="down">Vote down</button>
+			<span class="">{{user.votesString}}</span>
+		</form>
+	</div>
+{% endblock %}

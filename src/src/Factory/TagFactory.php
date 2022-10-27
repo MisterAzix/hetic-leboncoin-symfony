@@ -41,8 +41,6 @@ final class TagFactory extends ModelFactory
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
             'name' => self::faker()->word(),
-            'createdAt' => self::faker()->dateTimeBetween('-1 year'), // TODO add DATETIME ORM type manually
-            'updatedAt' => self::faker()->dateTimeBetween('-1 year'), // TODO add DATETIME ORM type manually
         ];
     }
 
