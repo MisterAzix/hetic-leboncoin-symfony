@@ -1,4 +1,4 @@
-{% for user in users %}
+{# {% for user in users %}
 	<li>
 		<h1>Vote :
 		</h1>
@@ -8,4 +8,12 @@
 			<span class="js-vote-total">{{ answer.votes }}</span>
 		</div>
 	</li>
-{% endfor %}
+{% endfor %} #}
+
+<div class='col'>
+	<form action="{{path('app_user_vote'))}}" methods: 'POST'>
+		<button class="" name="vote" value="up" data-id="{{ user.id }}">Vote up</button>
+		<button class="" name="vote" value="down" data-id="{{ user.id }}">Vote down</button>
+		<span class="">{{user.votesString}}</span>
+	</form>
+</div>
