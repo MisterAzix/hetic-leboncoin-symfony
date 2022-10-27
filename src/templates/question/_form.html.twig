@@ -1,0 +1,13 @@
+{{ form_start(question_form) }}
+    {{ form_row(question_form.question,
+        {
+            'attr': {
+                'class': 'rounded-0 border border-dark',
+                'placeholder': "Quel est son état global ?",
+            },
+            'label': 'Poser une question au vendeur',
+        })
+    }}
+    {{ form_widget(question_form) }}
+    <button class="btn btn-link">{{ button_label|default('Soumettre ma question') }}</button>
+{{ form_end(question_form) }}

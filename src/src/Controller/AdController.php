@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\Answer;
+use App\Entity\Question;
 use App\Form\AdType;
+use App\Form\AnswerType;
+use App\Form\QuestionType;
 use App\Repository\AdRepository;
 use App\Service\UploadHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -68,8 +72,25 @@ class AdController extends AbstractController
     #[Route('/{id}', name: 'app_ad_show', methods: ['GET'])]
     public function show(Ad $ad): Response
     {
+        $question = new Question();
+        $answer = new Answer();
+        $question_form = $this->createForm(QuestionType::class, $question, [
+            'action' => $this->generateUrl('app_question_new', ['ad' => $ad->getId()]),
+        ]);
+
+        $questions = $ad->getQuestions();
+        $answer_forms = [];
+        foreach ($questions as $ques) {
+            $form = $this->createForm(AnswerType::class, $answer, [
+                'action' => $this->generateUrl('app_answer_new', ['question' => $ques->getId()]),
+            ]);
+            $answer_forms[$ques->getId()] = $form->createView();
+        }
+
         return $this->render('ad/show.html.twig', [
             'ad' => $ad,
+            'question_form' => $question_form->createView(),
+            'answer_forms' => $answer_forms,
         ]);
     }
 

@@ -1,0 +1,19 @@
+{{ form_start(answer_forms[question.id]) }}
+    <div class="row">
+        <div class="col-6">
+            {{ form_row(answer_forms[question.id].answer,
+                {
+                    'attr': {
+                    'class': 'rounded-0 border border-dark',
+                    'placeholder': 'Votre réponse...'
+                },
+                    'label': false
+                })
+            }}
+            {{ form_widget(answer_forms[question.id]) }}
+        </div>
+        <div class="col-2">
+            <button class="btn btn-link">{{ button_label|default('Répondre') }}</button>
+        </div>
+    </div>
+{{ form_end(answer_forms[question.id]) }}
