@@ -55,7 +55,7 @@ final class AdFactory extends ModelFactory
         $thumbnailsArray = [];
         for ($i = 0; $i < $thumbnailsNumber; $i++) {
             $thumbnailsArray[] = $this->helper->fixtureUpload(
-                new File(__DIR__.'/Template_images/'.self::faker()->randomElement(self::$templateThumbnails))
+                new File(__DIR__ . '/Template_images/' . self::faker()->randomElement(self::$templateThumbnails))
             );
         }
 
@@ -64,6 +64,7 @@ final class AdFactory extends ModelFactory
             'description' => self::faker()->realText(),
             'price' => self::faker()->randomFloat(),
             'user' => UserFactory::random(),
+            'created_at' => self::faker()->dateTime('now'),
             'tags' => TagFactory::randomRange(0, 5),
             'thumbnails_urls' => $thumbnailsArray,
         ];

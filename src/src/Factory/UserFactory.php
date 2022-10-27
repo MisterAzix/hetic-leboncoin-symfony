@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\User;
+use App\Repository\QuestionRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Zenstruck\Foundry\RepositoryProxy;
