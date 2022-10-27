@@ -1,0 +1,21 @@
+.soulignement {
+    text-decoration: none;
+}
+
+.puces{
+    list-style-type: none;
+}
+
+.alignement_footer {
+    margin-right: 2%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.couleur {
+    color: #000000;
+}
+
+.couleur:hover {
+    color: #999999;
+}
