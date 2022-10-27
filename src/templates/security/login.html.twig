@@ -1,11 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in!
+{% endblock %}
 
 {% block body %}
-	{% if error %}
-		<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-	{% endif %}
 
 	{% if app.user %}
 		<div class='text-end'>
@@ -21,27 +19,33 @@
 			{% endif %}
 		</div>
 	{% else %}
-		<form method="post" class="container-fluid w-25 position-absolute top-50 start-50 translate-middle">
-			<h1 class="h3 mb-3 font-weight-normal text-center">Connexion</h1>
-			<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="Email">
-			<input type="password" name="password" id="inputPassword" class="form-control mt-3" autocomplete="current-password" required placeholder="Password">
+		<div class="container-fluid w-25 position-absolute top-50 start-50 translate-middle">
+			<form method="post">
+				<h1 class="h3 mb-3 font-weight-normal text-center">Connexion</h1>
+				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="Email">
+				<input type="password" name="password" id="inputPassword" class="form-control mt-3" autocomplete="current-password" required placeholder="Password">
 
-			<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-			<div class="checkbox mb-3">
-				<label>
-					<input type="checkbox" name="_remember_me">
-					Remember me
-				</label>
-			</div>
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+				<div class="checkbox mb-3">
+					<label>
+						<input type="checkbox" name="_remember_me">
+						Remember me
+					</label>
+				</div>
 
 
-			<button class="btn btn-lg btn-dark w-100" type="submit">
-				Se connecter
-			</button>
-			<p class="text-dark">Pas encore inscrit ?
-				<a class="text-secondary" href="{{ path('app_user_new') }}">Inscrivez-vous</a>
-			</p>
-		</form>
+				<button class="btn btn-lg btn-dark w-100" type="submit">
+					Se connecter
+				</button>
+				<p class="text-dark">Pas encore inscrit ?
+					<a class="text-secondary" href="{{ path('app_user_new') }}">Inscrivez-vous</a>
+				</p>
+			</form>
+			{% if error %}
+				<div class="alert alert-danger text-center">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+			{% endif %}
+		</div>
+
 
 	{% endif %}
 
