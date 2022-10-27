@@ -1,0 +1,11 @@
+{% for user in users %}
+	<li>
+		<h1>Vote :
+		</h1>
+		<div class="js-vote">
+			<button class="js-vote-up" name="vote" data-direction="up" data-id="{{ user.id }}">vote up</button>
+			<button class="js-vote-down" name="vote" data-direction="down" data-id="{{ user.id }}">vote down</button>
+			<span class="js-vote-total">{{ answer.votes }}</span>
+		</div>
+	</li>
+{% endfor %}
