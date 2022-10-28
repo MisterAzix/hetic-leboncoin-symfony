@@ -10,8 +10,6 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,20 +18,18 @@
             <tr>
                 <td>{{ tag.id }}</td>
                 <td>{{ tag.name }}</td>
-                <td>{{ tag.createdAt ? tag.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tag.updatedAt ? tag.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_tag_controllee_show', {'id': tag.id}) }}">show</a>
-                    <a href="{{ path('app_tag_controllee_edit', {'id': tag.id}) }}">edit</a>
+                    <a href="{{ path('app_tag_show', {'id': tag.id}) }}">show</a>
+                    <a href="{{ path('app_tag_edit', {'id': tag.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="3">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_tag_controllee_new') }}">Create new</a>
+    <a href="{{ path('app_tag_new') }}">Create new</a>
 {% endblock %}
