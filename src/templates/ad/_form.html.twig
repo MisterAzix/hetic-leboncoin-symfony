@@ -43,6 +43,18 @@
     </div>
 
     <div>
+        {{ form_row(form.tags,
+            {
+                'attr': {
+                'class': 'rounded-0 border border-dark',
+                'placeholder': 'Choose a tag...'
+            },
+                'label': false
+            })
+        }}
+    </div>
+
+    <div>
         {{ form_row(form.thumbnailsUrls,
             {
                 'attr': {

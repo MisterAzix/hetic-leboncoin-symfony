@@ -7,8 +7,8 @@
         <h3 class="fs-6">{{ ad.title }}</h3>
     </a>
     <span class="announces-date">
-        <time class='font-12' datetime="a dynamiser">13 Octobre 2022,</time>
-        <time class='font-12' datetime="a dynamiser">20:22</time>
+        <time class='font-12' datetime="a dynamiser">{{ ad.createdAt ? ad.createdAt|date('d-m-Y') : '' }},</time>
+        <time class='font-12' datetime="a dynamiser">{{ ad.createdAt ? ad.createdAt|date('H:i:s') : '' }}</time>
     </span>
-    <h4 class="font-12">Véhicule</h4>
+    <h4 class="font-12">{{ ad.tags|map(t => t.name)|join(', ') }}</h4>
 </div>

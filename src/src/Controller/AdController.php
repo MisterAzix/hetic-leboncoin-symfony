@@ -35,6 +35,10 @@ class AdController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ad->setUser($this->getUser())->setCreatedAt(new \DateTime());
+            $tags = $form['tags']->getData();
+            foreach ($tags as $tag) {
+                $ad->addTag($tag);
+            }
 
             $newFiles = $form['thumbnailsUrls']->getData();
             if (count($newFiles) > 0) {
@@ -101,6 +105,10 @@ class AdController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $tags = $form['tags']->getData();
+            foreach ($tags as $tag) {
+                $ad->addTag($tag);
+            }
             $newFiles = $form['thumbnailsUrls']->getData();
             if (count($newFiles) > 0) {
                 $filenames = [];
