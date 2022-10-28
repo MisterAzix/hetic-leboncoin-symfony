@@ -11,7 +11,7 @@
 		</li>
 		<li>
 			{% if app.user %}
-				<a href="{{ path('app_logout') }}" type="button" lass='font-normal d-sm-none d-md-inline hide-on-mobile'>se déconnecter</a>
+				<a href="{{ path('app_logout') }}" type="button" class='font-normal d-sm-none d-md-inline hide-on-mobile'>se déconnecter</a>
 			{% else %}
 				<a class='font-normal pe-4 d-sm-none d-md-inline hide-on-mobile' href="{{ path('app_user_new') }}">S'inscrire</a>
 				<a class='font-normal d-sm-none d-md-inline hide-on-mobile' href="{{ path('app_login') }}">Se connecter</a>
