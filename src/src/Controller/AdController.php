@@ -10,7 +10,6 @@ use App\Form\AnswerType;
 use App\Form\QuestionType;
 use App\Repository\AdRepository;
 use App\Service\UploadHelper;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
