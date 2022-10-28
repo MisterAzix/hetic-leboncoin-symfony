@@ -104,7 +104,7 @@ class UserController extends AbstractController
     #[Route('/{id}/vote', name: "app_user_vote", methods: ['GET', 'POST'])]
     public function userVote(User $user, Request $request, EntityManagerInterface $entityManager): Response
     {
-        if ($this->getUser()->getId() !== $user->getId()) {
+        if ($this->getUser() !== $user) {
             $request->query->get('vote') === 'up' ? $user->upVote() : $user->upDown();
             $entityManager->flush();
         }
