@@ -40,17 +40,14 @@
         </li>
     </ul>
 </nav>
-<main class="mx-auto container-fluid-custom vh-100">
-{% include 'partials/_navbar.html.twig' %}
-<section>
-    {% block body %}
+    <main class="mx-auto container-fluid-custom vh-100 d-flex flex-column justify-content-between">
+        {% include 'partials/_navbar.html.twig' %}
+        <section>
+            {% block body %}
 
-    {% endblock %}
-</section>
-</main>
-
-{% block footer %}
-    {% include 'partials/_footer.html.twig' %}
-{% endblock %}
+            {% endblock %}
+        </section>
+        {% include 'partials/_footer.html.twig' %}
+    </main>
 </body>
 </html>
