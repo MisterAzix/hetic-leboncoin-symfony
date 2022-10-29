@@ -5,10 +5,15 @@ namespace App\Entity;
 use App\Repository\AnswerRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 
 #[ORM\Entity(repositoryClass: AnswerRepository::class)]
 class Answer
 {
+    public const APPROVED = 'approved';
+    public const NEEDS_APPROVAL = 'needs_approval';
+    public const SPAM = 'spam';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,6 +32,9 @@ class Answer
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $answered_at = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $status = self::NEEDS_APPROVAL;
 
     public function getId(): ?int
     {
@@ -79,5 +87,31 @@ class Answer
         $this->answered_at = $answered_at;
 
         return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $vailable_status = [
+            self::NEEDS_APPROVAL,
+            self::APPROVED,
+            self::SPAM
+        ];
+
+        if (!in_array($status, $vailable_status)) {
+            throw new InvalidArgumentException('Le status demanddé est invalide');
+        }
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function isApproved(): bool
+    {
+        return $this->status === self::APPROVED;
     }
 }

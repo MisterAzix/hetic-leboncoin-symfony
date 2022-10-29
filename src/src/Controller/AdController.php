@@ -90,7 +90,7 @@ class AdController extends AbstractController
             ]);
             $answer_forms[$ques->getId()] = $form->createView();
         }
-
+        // dd($ad); tes approved
         return $this->render('ad/show.html.twig', [
             'ad' => $ad,
             'question_form' => $question_form->createView(),
