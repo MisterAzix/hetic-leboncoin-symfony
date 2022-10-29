@@ -3,11 +3,15 @@
 namespace App\Form;
 
 use App\Entity\Ad;
+use App\Entity\Tag;
+use App\Repository\TagRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\NotNull;
 
@@ -34,6 +38,18 @@ class AdType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('price')
+            ->add('tags', EntityType::class, [
+                'class' => Tag::class,
+                'query_builder' => function (TagRepository $tagRepository) {
+                    return $tagRepository->createQueryBuilder('t')
+                        ->orderBy('t.name', 'ASC')
+                        ->setMaxResults(10);
+                },
+                'choice_label' => 'name',
+                'multiple' => true,
+                'mapped' => false,
+                'constraints' => new Count(null, 1, 3),
+            ])
             ->add('thumbnailsUrls', FileType::class, [
                 'multiple' => true,
                 'mapped' => false,

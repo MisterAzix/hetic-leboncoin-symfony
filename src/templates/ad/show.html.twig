@@ -21,6 +21,10 @@
                     <td>{{ ad.price }}</td>
                 </tr>
                 <tr>
+                    <th>Tags</th>
+                    <td>{{ ad.tags ? ad.tags|map(t => t.name)|join(', ') : '' }}</td>
+                </tr>
+                <tr>
                     <th>Thumbnails_urls</th>
                     <td>{{ ad.thumbnailsUrls ? ad.thumbnailsUrls|join(', ') : '' }}</td>
                 </tr>
