@@ -113,14 +113,8 @@ class UserController extends AbstractController
         if ($request->query->get('direction')) {
             $direction = $request->query->get('direction');
             if (!$voteRepository->hasVote($formUserID, $toUserId, $direction)) {
-
                 $vote->setFromUserId($formUserID)->setToUserId($toUserId);
-
-                if ($direction == 'up') {
-                    $user->upVote();
-                } else {
-                    $user->upDown();
-                }
+                $direction == 'up' ? $user->upVote() : $user->upDown();
                 $voteRepository->upDateVote($formUserID, $toUserId, $direction);
                 $vote->setDirection($direction);
                 $entityManager->persist($vote);
