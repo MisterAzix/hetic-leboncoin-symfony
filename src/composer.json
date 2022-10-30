@@ -21,6 +21,7 @@
         "symfony/flex": "^2",
         "symfony/form": "6.1.*",
         "symfony/framework-bundle": "6.1.*",
+        "symfony/http-kernel": "6.1.*",
         "symfony/mime": "6.1.*",
         "symfony/monolog-bundle": "^3.0",
         "symfony/proxy-manager-bridge": "6.1.*",

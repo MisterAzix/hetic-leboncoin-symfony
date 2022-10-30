@@ -74,8 +74,14 @@ class AdController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_ad_show', methods: ['GET'])]
-    public function show(Ad $ad): Response
+    public function show(Ad $ad, AdRepository $adRepository, $id): Response
     {
+        $existingAd = $adRepository->findOneBy(['id' => $id]);
+
+        if (!$existingAd) {
+            return $this->redirectToRoute('app_error');
+        }
+
         $question = new Question();
         $answer = new Answer();
         $question_form = $this->createForm(QuestionType::class, $question, [
@@ -99,8 +105,14 @@ class AdController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_ad_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Ad $ad, AdRepository $adRepository, UploadHelper $helper): Response
+    public function edit($id, Request $request, Ad $ad, AdRepository $adRepository, UploadHelper $helper): Response
     {
+        $existingAd = $adRepository->findOneBy(['id' => $id]);
+
+        if (!$existingAd) {
+            return $this->redirectToRoute('app_error');
+        }
+
         $form = $this->createForm(AdType::class, $ad);
         $form->handleRequest($request);
 
