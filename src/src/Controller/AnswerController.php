@@ -25,6 +25,7 @@ class AnswerController extends AbstractController
             $answer->setUser($this->getUser());
             $answer->setQuestion($question);
             $answer->setAnsweredAt(new \DateTime());
+            $answer->setStatus($answer::APPROVED);
 
             $answerRepository->save($answer, true);
         }

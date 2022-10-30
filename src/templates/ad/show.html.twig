@@ -1,77 +1,79 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ad{% endblock %}
+{% block title %}Ad
+{% endblock %}
 
 {% block body %}
-    <div>
-        <h1>Ad</h1>
+	<div>
+		<h1>Ad</h1>
 
-        <table class="table">
-            <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ ad.id }}</td>
-                </tr>
-                <tr>
-                    <th>Title</th>
-                    <td>{{ ad.title }}</td>
-                </tr>
-                <tr>
-                    <th>Price</th>
-                    <td>{{ ad.price }}</td>
-                </tr>
-                <tr>
-                    <th>Tags</th>
-                    <td>{{ ad.tags ? ad.tags|map(t => t.name)|join(', ') : '' }}</td>
-                </tr>
-                <tr>
-                    <th>Thumbnails_urls</th>
-                    <td>{{ ad.thumbnailsUrls ? ad.thumbnailsUrls|join(', ') : '' }}</td>
-                </tr>
-            </tbody>
-        </table>
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ ad.id }}</td>
+				</tr>
+				<tr>
+					<th>Title</th>
+					<td>{{ ad.title }}</td>
+				</tr>
+				<tr>
+					<th>Price</th>
+					<td>{{ ad.price }}</td>
+				</tr>
+				<tr>
+					<th>Tags</th>
+					<td>{{ ad.tags ? ad.tags|map(t => t.name)|join(', ') : '' }}</td>
+				</tr>
+				<tr>
+					<th>Thumbnails_urls</th>
+					<td>{{ ad.thumbnailsUrls ? ad.thumbnailsUrls|join(', ') : '' }}</td>
+				</tr>
+			</tbody>
+		</table>
 
-        <a href="{{ path('app_ad_index') }}">back to list</a>
+		<a href="{{ path('app_ad_index') }}">back to list</a>
 
-        <a href="{{ path('app_ad_edit', {'id': ad.id}) }}">edit</a>
+		<a href="{{ path('app_ad_edit', {'id': ad.id}) }}">edit</a>
 
-    {{ include('ad/_delete_form.html.twig') }}
-    </div>
-    <hr />
-    {{ include('question/_form.html.twig') }}
-    {% for question in ad.questions %}
-        <div data-question id="question-{{ question.id }}" class="my-3">
-            <div title="{{ question.askedAt ? question.askedAt|date('Y-m-d H:i:s') : '' }}" class="fw-bold">
-                {{ question.user.firstname }}
-                ({{ question.askedAt ? question.askedAt|date('H:i:s') : '' }})
-                <button data-answer-btn class="btn btn-link">Répondre</button>
-            </div>
-            <div>{{ question.question }}</div>
-            {% if question.answers is not empty %}
-                <ul>
-                    {% for answer in question.answers  %}
-                        <div>-> {{ answer.answer }}</div>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-            <div data-answer-form class="d-none">
-                {{ include('answer/_form.html.twig') }}
-            </div>
-        </div>
-    {% endfor %}
+		{{ include('ad/_delete_form.html.twig') }}
+	</div>
+	<hr/>
+	{{ include('question/_form.html.twig') }}
+	{% for question in ad.questions %}
+		<div data-question id="question-{{ question.id }}" class="my-3">
+			<div title="{{ question.askedAt ? question.askedAt|date('Y-m-d H:i:s') : '' }}" class="fw-bold">
+				{{ question.user.firstname }}
+				({{ question.askedAt ? question.askedAt|date('H:i:s') : '' }})
+				<button data-answer-btn class="btn btn-link">Répondre</button>
+			</div>
+			<div>{{ question.question }}</div>
+			{% if question.answers is not empty %}
+				<ul>
+					{% for answer in question.approvedAnswers  %}
+						<div>->
+							{{ answer.answer }}</div>
+					{% endfor %}
+				</ul>
+			{% endif %}
+			<div data-answer-form class="d-none">
+				{{ include('answer/_form.html.twig') }}
+			</div>
+		</div>
+	{% endfor %}
 
-    <script>
-        const questions = document.querySelectorAll('[data-question]');
-        const answerForms = document.querySelectorAll('[data-answer-form]');
+	<script>
+		const questions = document.querySelectorAll('[data-question]');
+const answerForms = document.querySelectorAll('[data-answer-form]');
 
-        questions.forEach(q => {
-            const answerBtn = q.querySelector('[data-answer-btn]');
-            answerBtn?.addEventListener('click', (e) => {
-                e.preventDefault();
-                const answerForm = q.querySelector('[data-answer-form]');
-                answerForm.classList.toggle('d-none');
-                answerForms.forEach(form => !q.contains(form) && form.classList.add('d-none'));
-            });
-        });
-    </script>
+questions.forEach(q => {
+const answerBtn = q.querySelector('[data-answer-btn]');
+answerBtn ?. addEventListener('click', (e) => {
+e.preventDefault();
+const answerForm = q.querySelector('[data-answer-form]');
+answerForm.classList.toggle('d-none');
+answerForms.forEach(form => !q.contains(form) && form.classList.add('d-none'));
+});
+});
+	</script>
 {% endblock %}
