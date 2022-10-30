@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class='col'>
+		<form action="{{path('app_user_vote', {'id': user.id})}}" methods:'post'>
+			<button class="" name="direction" value="up">Vote up</button>
+			<button class="" name="direction" value="down">Vote down</button>
+			<span class="">{{user.votesString}}</span>
+		</form>
+	</div>
+{% endblock %}

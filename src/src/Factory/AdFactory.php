@@ -67,6 +67,7 @@ final class AdFactory extends ModelFactory
             'created_at' => self::faker()->dateTime('now'),
             'tags' => TagFactory::randomRange(0, 5),
             'thumbnails_urls' => $thumbnailsArray,
+            'created_at' => self::faker()->dateTime('now')
         ];
     }
 

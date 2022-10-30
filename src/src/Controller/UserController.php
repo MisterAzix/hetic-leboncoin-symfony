@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Vote;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Repository\VoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -111,5 +113,29 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/vote', name: "app_user_vote", methods: ['GET', 'POST'])]
+    public function userVote(User $user, Request $request, EntityManagerInterface $entityManager,  VoteRepository $voteRepository): Response
+    {
+        $formUserID = $this->getUser()->getId();
+        $toUserId = $user->getId();
+        $vote = new Vote();
+
+        if ($request->query->get('direction')) {
+            $direction = $request->query->get('direction');
+            if (!$voteRepository->hasVote($formUserID, $toUserId, $direction)) {
+                $vote->setFromUserId($formUserID)->setToUserId($toUserId);
+                $direction == 'up' ? $user->upVote() : $user->upDown();
+                $voteRepository->upDateVote($formUserID, $toUserId, $direction);
+                $vote->setDirection($direction);
+                $entityManager->persist($vote);
+                $entityManager->flush();
+            }
+        }
+
+        return $this->render('user/vote.html.twig', [
+            'user' => $user
+        ]);
     }
 }

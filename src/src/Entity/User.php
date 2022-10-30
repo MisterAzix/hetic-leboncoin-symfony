@@ -47,6 +47,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Answer::class, orphanRemoval: true)]
     private Collection $answers;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $votes = 0;
+
     public function __construct()
     {
         $this->ads = new ArrayCollection();
@@ -249,6 +252,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $answer->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVotesString(): string
+    {
+        $prefix = $this->getVotes() >= 0 ? "+" : "-";
+        return sprintf('%s %d', $prefix, abs($this->getVotes()));
+    }
+
+    public function upVote(): int
+    {
+        return $this->votes++;
+    }
+
+    public function upDown(): int
+    {
+        return $this->votes--;
+    }
+
+    public function getVotes(): ?int
+    {
+        return $this->votes;
+    }
+
+    public function setVotes(?int $votes): self
+    {
+        $this->votes = $votes;
 
         return $this;
     }

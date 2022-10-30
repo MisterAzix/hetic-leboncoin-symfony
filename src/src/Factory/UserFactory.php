@@ -47,6 +47,7 @@ final class UserFactory extends ModelFactory
             'first_name' => self::faker()->firstName(),
             'email' => self::faker()->email(),
             'createDate' => self::faker()->dateTimeBetween('-2 year'),
+            'votes' => self::faker()->randomNumber(3)
         ];
     }
 
