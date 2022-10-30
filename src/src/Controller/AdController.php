@@ -14,10 +14,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('/ad')]
 class AdController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     #[Route('/', name: 'app_ad_index', methods: ['GET'])]
     public function index(AdRepository $adRepository): Response
     {
@@ -77,6 +85,7 @@ class AdController extends AbstractController
     public function show(Ad $ad, AdRepository $adRepository, $id): Response
     {
         $existingAd = $adRepository->findOneBy(['id' => $id]);
+        $isAuthorized = strval($this->getUser()->getId()) === strval($ad->getUser()->getId()) || $this->security->isGranted('ROLE_ADMIN');
 
         if (!$existingAd) {
             return $this->redirectToRoute('app_error');
@@ -101,6 +110,7 @@ class AdController extends AbstractController
             'ad' => $ad,
             'question_form' => $question_form->createView(),
             'answer_forms' => $answer_forms,
+            'isAuthorized' => $isAuthorized,
         ]);
     }
 
@@ -111,6 +121,10 @@ class AdController extends AbstractController
 
         if (!$existingAd) {
             return $this->redirectToRoute('app_error');
+        }
+
+        if (strval($this->getUser()->getId()) !== strval($ad->getUser()->getId()) && !$this->security->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($request->headers->get('referer') ? $request->headers->get('referer') : '/');
         }
 
         $form = $this->createForm(AdType::class, $ad);

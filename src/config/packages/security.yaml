@@ -40,15 +40,11 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        # exiger d’être authentifié avec le « ROLE_ADMIN » pour accéder aux routes commençant par « /admin»
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        # exiger d’être authentifié avec le « ROLE_USER» pour accéder aux routes commençant par « /profile»
-        - { path: ^/profile, roles: ROLE_USER }
-        # Tout le monde peut accéder
+        - { path: ^/tag, roles: ROLE_ADMIN }
+        - { path: ^/user$, roles: ROLE_ADMIN }
         - { path: ^/login$, roles: PUBLIC_ACCESS }
-        # Tout le monde peut accéder
         - { path: ^/user/new$, roles: PUBLIC_ACCESS }
-        # Proteger tout le site
+        - { path: ^/$, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
 
 

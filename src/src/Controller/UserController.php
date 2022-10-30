@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use App\Security\LoginFormAuthenticator;
 
@@ -20,10 +21,12 @@ use App\Security\LoginFormAuthenticator;
 class UserController extends AbstractController
 {
     private $passwordHasher;
+    private $security;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, Security $security)
     {
         $this->passwordHasher = $passwordHasher;
+        $this->security = $security;
     }
 
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
@@ -68,10 +71,14 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(User $user): Response
+    public function show(User $user, Request $request, $id): Response
     {
         if (!$user) {
             return $this->redirectToRoute('app_error');
+        }
+
+        if (strval($this->getUser()->getId()) !== $id && !$this->security->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($request->headers->get('referer'));
         }
 
         return $this->render('user/show.html.twig', [
@@ -80,10 +87,14 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    public function edit(Request $request, User $user, UserRepository $userRepository, $id): Response
     {
         if (!$user) {
             return $this->redirectToRoute('app_error');
+        }
+
+        if (strval($this->getUser()->getId()) !== $id && !$this->security->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($request->headers->get('referer'));
         }
 
         $form = $this->createForm(UserType::class, $user);
@@ -102,10 +113,14 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, UserRepository $userRepository): Response
+    public function delete(Request $request, User $user, UserRepository $userRepository, $id): Response
     {
         if (!$user) {
             return $this->redirectToRoute('app_error');
+        }
+
+        if (strval($this->getUser()->getId()) !== $id && !$this->security->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($request->headers->get('referer'));
         }
 
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
