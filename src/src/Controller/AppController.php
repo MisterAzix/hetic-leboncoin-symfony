@@ -14,7 +14,7 @@ class AppController extends AbstractController
     {
         return $this->render('index.html.twig', [
             'controller_name' => 'AppController',
-            'ads' => $adRepository->findAll(),
+            'ads' => array_slice($adRepository->findAll(), 0, 4),
         ]);
     }
 }
