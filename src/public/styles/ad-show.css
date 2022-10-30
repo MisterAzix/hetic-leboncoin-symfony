@@ -1,0 +1,36 @@
+.show__image {
+  max-width: 414px;
+  height: auto;
+  width: 33%;
+}
+
+
+.show__announces-description {
+  max-width: 600px;
+}
+
+.show__questions-section {
+  margin-top: 78px;
+}
+
+.show__announces-description--right {
+  max-height: 205px;
+  min-width: 300px;
+}
+
+@media (max-width: 574px) {
+  .show {
+    flex-direction: column-reverse;
+  }
+
+  .show__image {
+    max-width: none;
+    width: 100%;
+  }
+
+  .show__announces-description--left {
+    width: 100% !important;
+  }
+
+}
+
