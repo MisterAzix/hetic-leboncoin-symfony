@@ -22,8 +22,8 @@
 		<div class="container-fluid w-25 position-absolute top-50 start-50 translate-middle">
 			<form method="post">
 				<h1 class="h3 mb-3 font-weight-normal text-center">Connexion</h1>
-				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="Email">
-				<input type="password" name="password" id="inputPassword" class="form-control mt-3" autocomplete="current-password" required placeholder="Password">
+				<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control rounded-0 border border-dark" autocomplete="email" required autofocus placeholder="Email">
+				<input type="password" name="password" id="inputPassword" class="form-control mt-3 rounded-0 border border-dark" autocomplete="current-password" required placeholder="Password">
 
 				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 				<div class="checkbox mb-3">
@@ -34,11 +34,12 @@
 				</div>
 
 
-				<button class="btn btn-lg btn-dark w-100" type="submit">
+				<button class="btn btn-dark w-100 rounded-0" type="submit">
 					Se connecter
 				</button>
-				<p class="text-dark">Pas encore inscrit ?
-					<a class="text-secondary" href="{{ path('app_user_new') }}">Inscrivez-vous</a>
+				<p class="text-dark">
+					Pas encore inscrit ?
+					<a class="link-secondary" href="{{ path('app_user_new') }}">Inscrivez-vous</a>
 				</p>
 			</form>
 			{% if error %}
