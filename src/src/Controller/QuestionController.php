@@ -17,10 +17,6 @@ class QuestionController extends AbstractController
     #[Route('/new/ad/{ad}', name: 'app_question_new', methods: ['POST'])]
     public function new(Request $request, QuestionRepository $questionRepository, Ad $ad): Response
     {
-        if (!$ad) {
-            return $this->redirectToRoute('app_error');
-        }
-
         $question = new Question();
         $form = $this->createForm(QuestionType::class, $question);
         $form->handleRequest($request);
